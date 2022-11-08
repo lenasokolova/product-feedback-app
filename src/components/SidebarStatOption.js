@@ -46,6 +46,7 @@ const SidebarStatLeft = styled.div`
     >h4 {
         font-weight: 500;
         color: #464d7b;
+        font-size: 14px;
     }
 
     
