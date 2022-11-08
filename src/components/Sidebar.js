@@ -1,4 +1,3 @@
-import { Icon } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -42,6 +41,7 @@ const SidebarContainer = styled.div`
     flex: 0.3;
     max-width: 260px;
     border: 1px solid red;
+    margin-right: 20px;
 `;
 
 const SidebarHeader = styled.div`
