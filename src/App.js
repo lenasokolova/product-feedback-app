@@ -1,14 +1,31 @@
 import React from 'react';
-// import { Counter } from './features/counter/Counter';
-import './App.css';
+import styled from 'styled-components';
+import Sidebar from './components/Sidebar';
+import Feed from './components/Feed';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Let's build Prodcut Feedbck App</h1>
+    <AppBody>
+      {/* <h1>Let's build Prodcut Feedbck App</h1>s */}
+      <Sidebar />
+      <Feed />
+      {/*Feed Header*/}
+      {/*Feed Threads*/}
+      {/*Thread List*/}
 
-    </div>
+
+
+
+
+
+
+    </AppBody>
   );
 }
 
 export default App;
+
+const AppBody = styled.div`
+  display: flex;
+  height: 100vh;
+`;
