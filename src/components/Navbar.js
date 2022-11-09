@@ -31,11 +31,7 @@ const Navbar = () => {
 export default Navbar
 
 const NavContainer = styled.div`
-    flex: 0.7;
-    border: 1px solid green;
-    flex-grow: 1;
     color: #fff;
-    
 `;
 
 const NavHeader = styled.div`
