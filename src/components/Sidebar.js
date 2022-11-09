@@ -24,7 +24,8 @@ const Sidebar = () => {
                     <span>View</span>
                 </SidebarStatsHeader>
                 <SidebarStatsBody>
-                    <SidebarStatOption Icon={FiberManualRecordIcon} title='Planned' number={2} color='#efa08c' /><SidebarStatOption Icon={FiberManualRecordIcon} title='In-progress' number={3} color='#ae1feb' />
+                    <SidebarStatOption Icon={FiberManualRecordIcon} title='Planned' number={2} color='#efa08c' />
+                    <SidebarStatOption Icon={FiberManualRecordIcon} title='In-progress' number={3} color='#ae1feb' />
                     <SidebarStatOption Icon={FiberManualRecordIcon} title='Live' number={1} color='#71b2f7' />
                 </SidebarStatsBody>
 
@@ -39,7 +40,8 @@ export default Sidebar
 
 const SidebarContainer = styled.div`
     flex: 0.3;
-    max-width: 260px;
+    max-width: 240px;
+    min-width: 200px;
     margin-right: 20px;
 `;
 
@@ -71,7 +73,8 @@ const SidebarHeader = styled.div`
 
 const SidebarOptionContainer = styled.div`
     display: flex;
-    padding: 18px 18px 5px;
+    gap: 10px 0px;
+    padding: 18px;
     flex-wrap: wrap;
     background-color: #fff;
     border-radius: 10px;
@@ -90,7 +93,7 @@ export const SidebarOption = styled.div`
     color: #4661e6;
     background-color: #f2f4ff;
     padding: 10px 18px;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     margin-right: 10px;
     border-radius: 10px;
     cursor: pointer;
@@ -107,6 +110,8 @@ const SidebarStatsContainer = styled.div`
     flex-direction: column;
     padding: 18px;
     background-color: #fff;
+    border-radius: 10px;
+
     -webkit-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
     -moz-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
     box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
@@ -136,4 +141,5 @@ const SidebarStatsHeader = styled.div`
     }
 `;
 
-const SidebarStatsBody = styled.div``;
+const SidebarStatsBody = styled.div`
+`;
