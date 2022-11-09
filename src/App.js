@@ -3,26 +3,18 @@ import styled from 'styled-components';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import ThreadsList from './components/ThreadsList';
+import ThreadPage from './components/ThreadPage';
 
 function App() {
   return (
     <AppBody>
-      {/* <h1>Let's build Prodcut Feedbck App</h1>s */}
-      <Sidebar />
+      {/* <Sidebar />
       <Main>
         <Navbar />
         <ThreadsList />
+      </Main> */}
 
-      </Main>
-      {/*Feed Threads*/}
-      {/*Thread List*/}
-
-
-
-
-
-
-
+      <ThreadPage />
     </AppBody>
   );
 }
