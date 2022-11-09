@@ -40,7 +40,6 @@ export default Sidebar
 const SidebarContainer = styled.div`
     flex: 0.3;
     max-width: 260px;
-    border: 1px solid red;
     margin-right: 20px;
 `;
 
@@ -85,7 +84,7 @@ const SidebarOptionContainer = styled.div`
 
 `;
 
-const SidebarOption = styled.span`
+export const SidebarOption = styled.div`
     font-size: 12px;
     font-weight: 900;
     color: #4661e6;
