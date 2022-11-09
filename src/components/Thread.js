@@ -41,7 +41,7 @@ export default Thread;
 const ThreadContainer = styled.div`
     display: flex;
     background-color: #fff;
-    padding: 18px;
+    padding: 25px;
     margin-bottom: 18px;
     border-radius: 10px;
 
