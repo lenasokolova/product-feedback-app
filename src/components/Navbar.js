@@ -32,6 +32,7 @@ export default Navbar
 
 const NavContainer = styled.div`
     color: #fff;
+    margin-bottom: 18px;
 `;
 
 const NavHeader = styled.div`
