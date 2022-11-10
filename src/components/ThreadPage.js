@@ -1,24 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import Thread from './Thread';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import AddCommentSection from './AddCommentSection';
 import Comment from './Comment';
+import NavbarFeedback from './NavbarFeedback';
 
 const ThreadPage = () => {
     return (
         <ThreadPageContainer>
-            <ThreadNav>
-                <ThreadNavLeft>
-                    <NavigateBeforeIcon />
-                    <p>Go Back</p>
-                </ThreadNavLeft>
-                <ThreadNavRight>
-                    <button>Edit Feedback</button>
-                </ThreadNavRight>
-
-
-            </ThreadNav>
+            <NavbarFeedback />
             <Thread />
             <ThreadComments>
                 <h3>4 Comments</h3>
@@ -41,51 +31,7 @@ const ThreadPageContainer = styled.div`
     max-width: 700px;
 `;
 
-const ThreadNav = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-`;
 
-const ThreadNavLeft = styled.div`
-    display: flex;
-    align-items: center;
-
-    >.MuiSvgIcon-root {
-        font-size: 20px;
-        color: #4661e6;
-    }
-
-    >p {
-        font-size: 12px;
-        font-weight: 800;
-        color: #72799d;
-    }
-
-`;
-
-const ThreadNavRight = styled.div`
-    display: flex;
-
-    >button {
-        display: flex;
-        align-items: center;
-        background-color: #4661e6;
-        border: none;
-        color: #fff;
-        font-weight: 600;
-        font-size: 12px;
-        padding: 10px 25px;
-        border-radius: 10px;
-        cursor: pointer;
-
-        :hover {
-            background-color: #3b55d4;
-
-        }
-    }
-`;
 
 const ThreadComments = styled.div`
     background-color: #fff;
