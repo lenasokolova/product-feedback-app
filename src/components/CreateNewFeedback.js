@@ -6,11 +6,8 @@ const CreateNewFeedback = () => {
     return (
         <NewFeedbackContainer>
             <NewFeedbackWholeContainer>
-
                 <NavbarFeedback />
-
                 <NewFeedbackInnerContainer>
-
                     <h2>Create New Feedback</h2>
                     <NewFeedbackFormContainer>
                         <h4>Feedback Title</h4>
@@ -37,9 +34,9 @@ const CreateNewFeedback = () => {
                         <NewFeedbackButtonCancel>Cancel</NewFeedbackButtonCancel>
                         <NewFeedbackButtonAdd>Add Feedback</NewFeedbackButtonAdd>
                     </NewFeedbackButtonsContainer>
+
                 </NewFeedbackInnerContainer>
             </NewFeedbackWholeContainer>
-
         </NewFeedbackContainer>
     )
 }
