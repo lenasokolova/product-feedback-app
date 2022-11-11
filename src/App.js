@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import ThreadsList from './components/ThreadsList';
 import ThreadPage from './components/ThreadPage';
+import CreateNewFeedback from './components/CreateNewFeedback';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <ThreadsList />
       </Main> */}
 
-      <ThreadPage />
+      {/* <ThreadPage /> */}
+      <CreateNewFeedback />
     </AppBody>
   );
 }
@@ -23,7 +25,9 @@ export default App;
 
 const AppBody = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100vh;
+  place-content: center;
 `;
 
 
