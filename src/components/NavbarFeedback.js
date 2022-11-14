@@ -1,19 +1,22 @@
 import React from 'react'
 import styled from 'styled-components';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { Link } from 'react-router-dom';
 
 
 const NavbarFeedback = () => {
     return (
         <ThreadNav>
-            <ThreadNavLeft>
-                <NavigateBeforeIcon />
-                <p>Go Back</p>
-            </ThreadNavLeft>
+            <Link to='/'>
+                <ThreadNavLeft>
+                    <NavigateBeforeIcon />
+                    <p>Go Back</p>
+                </ThreadNavLeft>
+            </Link>
             <ThreadNavRight>
                 <button>Edit Feedback</button>
             </ThreadNavRight>
-        </ThreadNav>
+        </ThreadNav >
     )
 }
 
@@ -25,12 +28,16 @@ const ThreadNav = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+
+    >Link {
+        
+    }
 `;
 
 const ThreadNavLeft = styled.div`
+
     display: flex;
     align-items: center;
-
     cursor: pointer;
 
     >.MuiSvgIcon-root {
