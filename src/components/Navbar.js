@@ -3,6 +3,7 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
@@ -17,11 +18,14 @@ const Navbar = () => {
                     <p>Most Upvotes</p>
                     <ExpandMoreIcon />
                 </NavCenter>
+
                 <NavRight>
-                    <button>
-                        <AddIcon />
-                        <p>Add Feedback</p>
-                    </button>
+                    <Link to='/add-feedback'>
+                        <button>
+                            <AddIcon />
+                            <p>Add Feedback</p>
+                        </button>
+                    </Link>
                 </NavRight>
             </NavHeader>
         </NavContainer>
@@ -37,6 +41,7 @@ const NavContainer = styled.div`
 
 const NavHeader = styled.div`
     display: flex;
+    /* justify-content: space-between; */
     background-color: #373e68;
     padding: 15px;
     border-radius: 5px;
@@ -84,7 +89,7 @@ const NavRight = styled.div`
     flex: 0.3;
     justify-content: flex-end;
 
-    >button {
+    button {
         display: flex;
         align-items: center;
         background-color: #ae1feb;
