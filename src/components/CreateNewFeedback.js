@@ -4,7 +4,7 @@ import NavbarFeedback from './NavbarFeedback';
 import { db } from '../firebase';
 import { collection, addDoc } from "firebase/firestore";
 
-const CreateNewFeedback = ({ feedbackId }) => {
+const CreateNewFeedback = () => {
 
     const [titleFeedback, setTitleFeedback] = useState('');
     const [categoryFeedback, setCategoryFeedback] = useState('All')
@@ -17,6 +17,9 @@ const CreateNewFeedback = ({ feedbackId }) => {
             title: titleFeedback,
             category: categoryFeedback,
             detail: detailFeedback,
+            commentsCount: 0,
+            upVotesCount: 0,
+            comments: []
         });
 
         console.log('Document written ID:', docRef.id);
@@ -56,12 +59,12 @@ const CreateNewFeedback = ({ feedbackId }) => {
                             id="categories"
                             onChange={(e) => setCategoryFeedback(e.target.value)}
                         >
-                            <option value="all">All</option>
-                            <option value="ui">UI</option>
-                            <option value="ux">UX</option>
-                            <option value="enhancement">Enhancement</option>
-                            <option value="bug">Bug</option>
-                            <option value="feature">Feature</option>
+                            <option value="All">All</option>
+                            <option value="UI">UI</option>
+                            <option value="UX">UX</option>
+                            <option value="Enhancement">Enhancement</option>
+                            <option value="Bug">Bug</option>
+                            <option value="Feature">Feature</option>
                         </select>
 
                         <h4>Feedback Detail</h4>
