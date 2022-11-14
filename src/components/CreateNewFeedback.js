@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import NavbarFeedback from './NavbarFeedback';
+import { db } from '../firebase';
+import { collection, addDoc } from "firebase/firestore";
 
-const CreateNewFeedback = () => {
+const CreateNewFeedback = ({ feedbackId }) => {
+
+    const [titleFeedback, setTitleFeedback] = useState('');
+    const [categoryFeedback, setCategoryFeedback] = useState('All')
+    const [detailFeedback, setDetailFeedback] = useState('');
+
+
+    const addFeedback = (e) => {
+        e.preventDefault();
+        const docRef = addDoc(collection(db, 'feedbacks'), {
+            title: titleFeedback,
+            category: categoryFeedback,
+            detail: detailFeedback,
+        });
+
+        console.log('Document written ID:', docRef.id);
+
+        setTitleFeedback('');
+        setCategoryFeedback('All');
+        setDetailFeedback('');
+
+    }
+
+    const cancelAddFeedback = () => {
+        alert('Feedback has been CANCELED!');
+    }
+
+
     return (
         <NewFeedbackContainer>
             <NewFeedbackWholeContainer>
@@ -12,14 +41,24 @@ const CreateNewFeedback = () => {
                     <NewFeedbackFormContainer>
                         <h4>Feedback Title</h4>
                         <label htmlFor="headline">Add a short, descriptive headline</label>
-                        <input type="text" name='headline' />
+                        <input
+                            type="text"
+                            name='headline'
+                            value={titleFeedback}
+                            onChange={(e) => setTitleFeedback(e.target.value)}
+                        />
 
                         <h4>Category</h4>
                         <label htmlFor="categories">Choose a category for your feedback</label>
-                        <select name="categories" id="categories">
+                        <select
+                            value={categoryFeedback}
+                            name="categories"
+                            id="categories"
+                            onChange={(e) => setCategoryFeedback(e.target.value)}
+                        >
                             <option value="all">All</option>
-                            <option value="uI">UI</option>
-                            <option value="uX">UX</option>
+                            <option value="ui">UI</option>
+                            <option value="ux">UX</option>
                             <option value="enhancement">Enhancement</option>
                             <option value="bug">Bug</option>
                             <option value="feature">Feature</option>
@@ -27,13 +66,19 @@ const CreateNewFeedback = () => {
 
                         <h4>Feedback Detail</h4>
                         <label htmlFor="details">Include any specific comments on what should be improved, added, etc.</label>
-                        <textarea name="details" id="details"></textarea>
+                        <textarea
+                            name="details"
+                            id="details"
+                            value={detailFeedback}
+                            onChange={(e) => setDetailFeedback(e.target.value)}
+                        />
+                        <NewFeedbackButtonsContainer>
+                            <NewFeedbackButtonCancel onClick={cancelAddFeedback}>Cancel</NewFeedbackButtonCancel>
+                            <NewFeedbackButtonAdd type='submit' onClick={addFeedback}>Add Feedback</NewFeedbackButtonAdd>
+                        </NewFeedbackButtonsContainer>
                     </NewFeedbackFormContainer>
 
-                    <NewFeedbackButtonsContainer>
-                        <NewFeedbackButtonCancel>Cancel</NewFeedbackButtonCancel>
-                        <NewFeedbackButtonAdd>Add Feedback</NewFeedbackButtonAdd>
-                    </NewFeedbackButtonsContainer>
+
 
                 </NewFeedbackInnerContainer>
             </NewFeedbackWholeContainer>
