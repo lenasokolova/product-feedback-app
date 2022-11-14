@@ -4,33 +4,24 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import ThreadsList from './components/ThreadsList';
 import ThreadPage from './components/ThreadPage';
-import CreateNewFeedback from './components/CreateNewFeedback';
+import CreateNewFeedbackPage from './pages/CreateNewFeedbackPage';
 
-function App() {
+import { Routes, Route } from "react-router-dom";
+import DashboardPage from './pages/DashboardPage';
+
+const App = () => {
   return (
-    <AppBody>
-      {/* <Sidebar />
-      <Main>
-        <Navbar />
-        <ThreadsList />
-      </Main> */}
 
-      {/* <ThreadPage /> */}
-      <CreateNewFeedback />
-    </AppBody>
+    <Routes>
+      <Route path='/' element={<DashboardPage />} />
+      <Route path='/add-feedback' element={<CreateNewFeedbackPage />} />
+
+    </Routes>
   );
 }
 
 export default App;
 
-const AppBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  place-content: center;
-`;
 
 
-const Main = styled.div`
-  flex: 0.7;
-`;
+
