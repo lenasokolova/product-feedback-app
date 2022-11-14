@@ -5,7 +5,7 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { SidebarOption } from './Sidebar';
 
 
-const Thread = () => {
+const Thread = ({ title, category, detail }) => {
     return (
         <ThreadContainer>
             <ThreadLeft>
@@ -15,11 +15,11 @@ const Thread = () => {
                 </ThreadVotes>
                 <ThreadContent>
                     <ThreadInfo>
-                        <h3>Add tag for solutions</h3>
-                        <p>Easier to search for solutions based on a specific stack</p>
+                        <h3>{title}</h3>
+                        <p>{detail}</p>
                     </ThreadInfo>
                     <ThreadCategory>
-                        <SidebarOption>Enhancement</SidebarOption>
+                        <SidebarOption>{category}</SidebarOption>
                     </ThreadCategory>
                 </ThreadContent>
             </ThreadLeft>
