@@ -39,6 +39,8 @@ export default Sidebar
 
 
 const SidebarContainer = styled.div`
+    display: flex;
+    flex-direction: column;
     flex: 0.3;
     max-width: 240px;
     min-width: 200px;
