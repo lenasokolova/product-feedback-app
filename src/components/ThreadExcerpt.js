@@ -4,7 +4,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { SidebarOption } from './Sidebar';
 import { useNavigate } from 'react-router-dom';
-import { selectFeedback } from '../features/feedbackSlice';
+import { selectFeedback } from '../features/feedbacks/feedbackSlice';
 import { useDispatch } from 'react-redux';
 
 
