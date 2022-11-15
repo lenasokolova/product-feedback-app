@@ -14,7 +14,7 @@ const ThreadsList = () => {
         const feedbacks = db.collection('feedbacks').onSnapshot((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 getFeedbacksFromFirebase.push({
-                    ...doc.data(),
+                    data: doc.data(),
                     key: doc.id,
                 })
                 setFeedbacksAll(getFeedbacksFromFirebase);
@@ -32,12 +32,26 @@ const ThreadsList = () => {
         return <h1>Loading firebase data...</h1>
     }
 
-    const renderedFeedbacks = feedbacksAll.map(feedback => {
+    const renderedFeedbacks = feedbacksAll.map(({
+        key,
+        data: {
+            id,
+            title,
+            category,
+            detail,
+            commentsCount,
+            upVotesCount
+        } }) => {
 
         return (
             <ThreadExcerpt
-                feedback={feedback}
-                key={feedback.key}
+                id={id}
+                key={key}
+                title={title}
+                category={category}
+                detail={detail}
+                commentsCount={commentsCount}
+                upVotesCount={upVotesCount}
             />
 
         )
@@ -49,9 +63,6 @@ const ThreadsList = () => {
     return (
         <ThreadListContainer>
             {renderedFeedbacks}
-
-
-
         </ThreadListContainer>
     )
 }
