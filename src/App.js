@@ -11,13 +11,10 @@ const App = () => {
     <Routes>
 
       <Route path='/' element={<DashboardPage />}>
-
       </Route>
-      <Route path='feedback'>
-        <Route index element={<CreateNewFeedbackPage />} />
+      <Route path='/feedback' element={<SingleThreadPage />} />
+      <Route path='/add-feedback' element={<CreateNewFeedbackPage />} />s
 
-        <Route path=':feedbackId' element={<SingleThreadPage />} />
-      </Route>
 
     </Routes>
   );
