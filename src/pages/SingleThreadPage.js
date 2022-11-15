@@ -6,7 +6,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import styled from 'styled-components';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { selectOpenFeedback } from '../features/feedbackSlice';
+import { selectOpenFeedback } from '../features/feedbacks/feedbackSlice';
 import { SidebarOption } from '../components/Sidebar';
 import AddCommentSection from '../components/AddCommentSection';
 import Comment from '../components/Comment';
@@ -15,7 +15,7 @@ import Comment from '../components/Comment';
 const SingleThreadPage = () => {
 
     const history = useNavigate();
-    const selectedMail = useSelector(selectOpenFeedback);
+    const selectedFeedback = useSelector(selectOpenFeedback);
 
     return (
         <SingleThreadPageContainer>
@@ -33,15 +33,15 @@ const SingleThreadPage = () => {
                     <ThreadLeft>
                         <ThreadVotes>
                             <ExpandLessIcon />
-                            <h4>{selectedMail.upVotesCount}</h4>
+                            <h4>{selectedFeedback.upVotesCount}</h4>
                         </ThreadVotes>
                         <ThreadContent>
                             <ThreadInfo>
-                                <h3>{selectedMail.title}</h3>
-                                <p>{selectedMail.detail}</p>
+                                <h3>{selectedFeedback.title}</h3>
+                                <p>{selectedFeedback.detail}</p>
                             </ThreadInfo>
                             <ThreadCategory>
-                                <SidebarOption>{selectedMail.category}</SidebarOption>
+                                <SidebarOption>{selectedFeedback.category}</SidebarOption>
                             </ThreadCategory>
                         </ThreadContent>
                     </ThreadLeft>
@@ -49,7 +49,7 @@ const SingleThreadPage = () => {
                     <ThreadRight>
                         <ThreadComments>
                             <ChatBubbleIcon />
-                            <h3>{selectedMail.commentsCount}</h3>
+                            <h3>{selectedFeedback.commentsCount}</h3>
                         </ThreadComments>
                     </ThreadRight>
 
