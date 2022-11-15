@@ -3,79 +3,97 @@ import styled from 'styled-components';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { SidebarOption } from './Sidebar';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectFeedbackId } from '../features/appSlice';
+import { useNavigate } from 'react-router-dom';
+import { selectFeedback } from '../features/feedbackSlice';
+import { useDispatch } from 'react-redux';
 
 
-const ThreadExcerpt = ({ feedback }) => {
+const ThreadExcerpt = ({ title, category, detail, commentsCount, upVotesCount }) => {
 
-    // const feedback = useSelector(state => selectFeedbackId(state, Number(feedbackId)))
+    const history = useNavigate();
+    const dispatch = useDispatch();
+
+    const openThread = () => {
+        dispatch(selectFeedback({
+            title,
+            category,
+            detail,
+            commentsCount,
+            upVotesCount
+        }))
+
+        history('/feedback')
+    }
 
     return (
-        <Link to={`${feedback?.id}`}>
-            <ThreadContainer>
-                <ThreadLeft>
-                    <ThreadVotes>
-                        <ExpandLessIcon />
-                        <h4>{feedback?.upVotesCount}</h4>
-                    </ThreadVotes>
-                    <ThreadContent>
-                        <ThreadInfo>
-                            <h3>{feedback?.title}</h3>
-                            <p>{feedback?.detail}</p>
-                        </ThreadInfo>
-                        <ThreadCategory>
-                            <SidebarOption>{feedback?.category}</SidebarOption>
-                        </ThreadCategory>
-                    </ThreadContent>
-                </ThreadLeft>
+        <ThreadContainer onClick={openThread}>
+            <ThreadLeft>
+                <ThreadVotes>
+                    <ExpandLessIcon />
+                    <h4>{upVotesCount}</h4>
+                </ThreadVotes>
+                <ThreadContent>
+                    <ThreadInfo>
+                        <h3>{title}</h3>
+                        <p>{detail}</p>
+                    </ThreadInfo>
+                    <ThreadCategory>
+                        <SidebarOption>{category}</SidebarOption>
+                    </ThreadCategory>
+                </ThreadContent>
+            </ThreadLeft>
 
-                <ThreadRight>
-                    <ThreadComments>
-                        <ChatBubbleIcon />
-                        <h3>{feedback?.commentsCount}</h3>
-                    </ThreadComments>
-                </ThreadRight>
+            <ThreadRight>
+                <ThreadComments>
+                    <ChatBubbleIcon />
+                    <h3>{commentsCount}</h3>
+                </ThreadComments>
+            </ThreadRight>
 
 
-            </ThreadContainer>
-        </Link>
+        </ThreadContainer>
     )
 }
 
-// const Thread = ({ title, category, detail, commentsCount, upVotesCount }) => {
+export default ThreadExcerpt;
+
+// const ThreadExcerpt = ({ feedback }) => {
+
+//     // const feedback = useSelector(state => selectFeedbackId(state, Number(feedbackId)))
+
 //     return (
-//         <ThreadContainer>
-//             <ThreadLeft>
-//                 <ThreadVotes>
-//                     <ExpandLessIcon />
-//                     <h4>{upVotesCount}</h4>
-//                 </ThreadVotes>
-//                 <ThreadContent>
-//                     <ThreadInfo>
-//                         <h3>{title}</h3>
-//                         <p>{detail}</p>
-//                     </ThreadInfo>
-//                     <ThreadCategory>
-//                         <SidebarOption>{category}</SidebarOption>
-//                     </ThreadCategory>
-//                 </ThreadContent>
-//             </ThreadLeft>
+//         <Link to={`${feedback?.id}`}>
+//             <ThreadContainer>
+//                 <ThreadLeft>
+//                     <ThreadVotes>
+//                         <ExpandLessIcon />
+//                         <h4>{feedback?.upVotesCount}</h4>
+//                     </ThreadVotes>
+//                     <ThreadContent>
+//                         <ThreadInfo>
+//                             <h3>{feedback?.title}</h3>
+//                             <p>{feedback?.detail}</p>
+//                         </ThreadInfo>
+//                         <ThreadCategory>
+//                             <SidebarOption>{feedback?.category}</SidebarOption>
+//                         </ThreadCategory>
+//                     </ThreadContent>
+//                 </ThreadLeft>
 
-//             <ThreadRight>
-//                 <ThreadComments>
-//                     <ChatBubbleIcon />
-//                     <h3>{commentsCount}</h3>
-//                 </ThreadComments>
-//             </ThreadRight>
+//                 <ThreadRight>
+//                     <ThreadComments>
+//                         <ChatBubbleIcon />
+//                         <h3>{feedback?.commentsCount}</h3>
+//                     </ThreadComments>
+//                 </ThreadRight>
 
 
-//         </ThreadContainer>
+//             </ThreadContainer>
+//         </Link>
 //     )
 // }
 
-export default ThreadExcerpt;
+
 
 const ThreadContainer = styled.div`
     display: flex;
