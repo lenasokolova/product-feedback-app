@@ -1,59 +1,133 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { selectFeedbackId } from '../features/appSlice';
+import { useNavigate } from 'react-router-dom';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-// import { SidebarOption } from './Sidebar';
+import styled from 'styled-components';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { selectOpenFeedback } from '../features/feedbackSlice';
+import { SidebarOption } from '../components/Sidebar';
+import AddCommentSection from '../components/AddCommentSection';
+import Comment from '../components/Comment';
 
 
 const SingleThreadPage = () => {
 
-    const { feedbackId } = useParams();
-
-    const feedback = useSelector((state) => selectFeedbackId(state, Number(feedbackId)))
-
-    if (!feedback) {
-        return (
-            <section>
-                <h2>Thread not found!</h2>
-            </section>
-        )
-    }
+    const history = useNavigate();
+    const selectedMail = useSelector(selectOpenFeedback);
 
     return (
-        <ThreadContainer>
-            <ThreadLeft>
-                <ThreadVotes>
-                    <ExpandLessIcon />
-                    <h4>{feedback.upVotesCount}</h4>
-                </ThreadVotes>
-                <ThreadContent>
-                    <ThreadInfo>
-                        <h3>{feedback.title}</h3>
-                        <p>{feedback.detail}</p>
-                    </ThreadInfo>
-                    <ThreadCategory>
-                        {/* <SidebarOption>{feedback.category}</SidebarOption> */}
-                    </ThreadCategory>
-                </ThreadContent>
-            </ThreadLeft>
+        <SingleThreadPageContainer>
+            <SingleThreadPageContainerWhole>
+                <ThreadNav>
+                    <ThreadNavLeft onClick={() => history('/')}>
+                        <NavigateBeforeIcon />
+                        <p>Go Back</p>
+                    </ThreadNavLeft>
+                    <ThreadNavRight>
+                        <button>Edit Feedback</button>
+                    </ThreadNavRight>
+                </ThreadNav >
+                <ThreadContainer>
+                    <ThreadLeft>
+                        <ThreadVotes>
+                            <ExpandLessIcon />
+                            <h4>{selectedMail.upVotesCount}</h4>
+                        </ThreadVotes>
+                        <ThreadContent>
+                            <ThreadInfo>
+                                <h3>{selectedMail.title}</h3>
+                                <p>{selectedMail.detail}</p>
+                            </ThreadInfo>
+                            <ThreadCategory>
+                                <SidebarOption>{selectedMail.category}</SidebarOption>
+                            </ThreadCategory>
+                        </ThreadContent>
+                    </ThreadLeft>
 
-            <ThreadRight>
-                <ThreadComments>
-                    <ChatBubbleIcon />
-                    <h3>{feedback.commentsCount}</h3>
-                </ThreadComments>
-            </ThreadRight>
+                    <ThreadRight>
+                        <ThreadComments>
+                            <ChatBubbleIcon />
+                            <h3>{selectedMail.commentsCount}</h3>
+                        </ThreadComments>
+                    </ThreadRight>
 
 
-        </ThreadContainer>
+                </ThreadContainer>
+                <Comment />
+                <AddCommentSection />
+            </SingleThreadPageContainerWhole>
+        </ SingleThreadPageContainer>
     )
+
 }
 
 export default SingleThreadPage;
+
+
+const SingleThreadPageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const SingleThreadPageContainerWhole = styled.div`
+    max-width: 800px;
+`;
+
+const ThreadNav = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    >Link {
+        
+    }
+`;
+
+const ThreadNavLeft = styled.div`
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    >.MuiSvgIcon-root {
+        font-size: 20px;
+        color: #4661e6;
+    }
+
+    >p {
+        font-size: 12px;
+        font-weight: 800;
+        color: #72799d;
+    }
+
+`;
+
+const ThreadNavRight = styled.div`
+    display: flex;
+
+    >button {
+        display: flex;
+        align-items: center;
+        background-color: #4661e6;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 12px;
+        padding: 10px 25px;
+        border-radius: 10px;
+        cursor: pointer;
+
+        :hover {
+            background-color: #3b55d4;
+
+        }
+    }
+`;
+
 
 
 const ThreadContainer = styled.div`
