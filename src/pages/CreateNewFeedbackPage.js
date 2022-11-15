@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import NavbarFeedback from '../components/NavbarFeedback';
 import { db } from '../firebase';
 import { collection, addDoc } from "firebase/firestore";
+import { nanoid } from '@reduxjs/toolkit';
 
 const CreateNewFeedbackPage = () => {
 
@@ -14,12 +15,13 @@ const CreateNewFeedbackPage = () => {
     const addFeedback = (e) => {
         e.preventDefault();
         const docRef = addDoc(collection(db, 'feedbacks'), {
+            id: nanoid(),
             title: titleFeedback,
             category: categoryFeedback,
             detail: detailFeedback,
             commentsCount: 0,
             upVotesCount: 0,
-            comments: []
+            comments: [],
         });
 
         console.log('Document written ID:', docRef.id);
