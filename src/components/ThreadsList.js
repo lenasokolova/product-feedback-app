@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Thread from './Thread';
+import ThreadExcerpt from './ThreadExcerpt';
 
 import { db } from '../firebase';
 
 const ThreadsList = () => {
 
     const [loading, setLoading] = useState(true);
-    const [posts, setPosts] = useState([]);
+    const [feedbacksAll, setFeedbacksAll] = useState([]);
 
     useEffect(() => {
-        const getPostsFromFirebase = [];
+        const getFeedbacksFromFirebase = [];
         const feedbacks = db.collection('feedbacks').onSnapshot((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                getPostsFromFirebase.push({
+                getFeedbacksFromFirebase.push({
                     ...doc.data(),
                     key: doc.id,
                 })
-                setPosts(getPostsFromFirebase);
+                setFeedbacksAll(getFeedbacksFromFirebase);
                 setLoading(false);
             })
         })
@@ -26,22 +26,18 @@ const ThreadsList = () => {
     }, [])
 
 
-    console.log(posts)
+    console.log(feedbacksAll)
 
     if (loading) {
         return <h1>Loading firebase data...</h1>
     }
 
-    const renderedFeedbacks = posts.map(post => {
+    const renderedFeedbacks = feedbacksAll.map(feedback => {
 
         return (
-            <Thread
-                title={post.title}
-                category={post.category}
-                detail={post.detail}
-                commentsCount={post.commentsCount}
-                upVotesCount={post.upVotesCount}
-                key={post.key}
+            <ThreadExcerpt
+                feedback={feedback}
+                key={feedback.key}
             />
 
         )
