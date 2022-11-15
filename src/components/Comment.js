@@ -27,6 +27,10 @@ export default Comment;
 
 const CommentContainer = styled.div`
     display: flex;
+    background-color: #fff;
+    padding: 25px;
+    margin-bottom: 18px;
+    border-radius: 10px;
     
     >img {
         height: 35px;
