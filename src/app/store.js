@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import appReducer from '../features/appSlice';
+import feedbackReducer from '../features/feedbackSlice';
 
 export const store = configureStore({
   reducer: {
-    app: appReducer,
+    feedback: feedbackReducer,
   },
 });
