@@ -26,7 +26,7 @@ const SingleThreadPage = () => {
                         <p>Go Back</p>
                     </ThreadNavLeft>
                     <ThreadNavRight>
-                        <button>Edit Feedback</button>
+                        <button onClick={() => history('/edit')}>Edit Feedback</button>
                     </ThreadNavRight>
                 </ThreadNav >
                 <ThreadContainer>
