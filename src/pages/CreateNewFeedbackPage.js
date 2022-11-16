@@ -10,6 +10,8 @@ const CreateNewFeedbackPage = () => {
     const [titleFeedback, setTitleFeedback] = useState('');
     const [categoryFeedback, setCategoryFeedback] = useState('All')
     const [detailFeedback, setDetailFeedback] = useState('');
+    const [statusFeedback, setStatusFeedback] = useState('Suggestion');
+
 
 
     const addFeedback = (e) => {
@@ -22,6 +24,7 @@ const CreateNewFeedbackPage = () => {
             commentsCount: 0,
             upVotesCount: 0,
             comments: [],
+            status: statusFeedback,
         });
 
         console.log('Document written ID:', docRef.id);
@@ -29,6 +32,7 @@ const CreateNewFeedbackPage = () => {
         setTitleFeedback('');
         setCategoryFeedback('All');
         setDetailFeedback('');
+        setStatusFeedback('Suggestion')
 
     }
 
