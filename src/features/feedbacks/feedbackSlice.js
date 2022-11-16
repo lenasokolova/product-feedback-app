@@ -10,11 +10,18 @@ export const feedbackSlice = createSlice({
         selectFeedback: (state, action) => {
             state.selectedFeedback = action.payload;
         },
+        editFeedback: (state, action) => {
+            if (state.selectedFeedback.id === action.payload.id) {
+                state.selectedFeedback = action.payload;
+            }
+
+        },
     },
 })
 
-export const { selectFeedback } = feedbackSlice.actions;
+export const { selectFeedback, editFeedback } = feedbackSlice.actions;
 
 export const selectOpenFeedback = (state) => state.feedback.selectedFeedback;
+export const selectEditedFeedback = (state) => state.feedback.selectedFeedback;
 
 export default feedbackSlice.reducer;
