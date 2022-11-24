@@ -8,13 +8,14 @@ import { selectFeedback } from '../features/feedbacks/feedbackSlice';
 import { useDispatch } from 'react-redux';
 
 
-const ThreadExcerpt = ({ title, category, detail, commentsCount, upVotesCount }) => {
+const ThreadExcerpt = ({ id, title, category, detail, commentsCount, upVotesCount }) => {
 
     const history = useNavigate();
     const dispatch = useDispatch();
 
     const openThread = () => {
         dispatch(selectFeedback({
+            id,
             title,
             category,
             detail,
@@ -26,7 +27,7 @@ const ThreadExcerpt = ({ title, category, detail, commentsCount, upVotesCount })
     }
 
     return (
-        <ThreadContainer onClick={openThread}>
+        <ThreadContainer id={id} onClick={openThread}>
             <ThreadLeft>
                 <ThreadVotes>
                     <ExpandLessIcon />
