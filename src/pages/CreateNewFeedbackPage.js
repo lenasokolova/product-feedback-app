@@ -1,45 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import NavbarFeedback from '../components/NavbarFeedback';
-import { db } from '../firebase';
-import { collection, addDoc } from "firebase/firestore";
 import { nanoid } from '@reduxjs/toolkit';
 
+import { isEmpty } from "lodash";
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFeedback } from './../redux/actions';
+
 const CreateNewFeedbackPage = () => {
+    const values = {
+        category: "",
+        comments: [],
+        commentsCount: 0,
+        detail: "",
+        id: nanoid(),
+        status: "Suggestion",
+        title: "",
+        upVotesCount: 0
+    };
 
-    const [titleFeedback, setTitleFeedback] = useState('');
-    const [categoryFeedback, setCategoryFeedback] = useState('All')
-    const [detailFeedback, setDetailFeedback] = useState('');
-    const [statusFeedback, setStatusFeedback] = useState('Suggestion');
+    const [initialState, setState] = useState(values);
+    const { feedbacks: data } = useSelector((state) => state.data)
 
+    const { title, category, detail } = initialState;
 
+    let dispatch = useDispatch();
+    const currentId = useParams();
+    const navigate = useNavigate();
 
-    const addFeedback = (e) => {
-        e.preventDefault();
-        const docRef = addDoc(collection(db, 'feedbacks'), {
-            id: nanoid(),
-            title: titleFeedback,
-            category: categoryFeedback,
-            detail: detailFeedback,
-            commentsCount: 0,
-            upVotesCount: 0,
-            comments: [],
-            status: statusFeedback,
+    const { id } = currentId;
+
+    useEffect(() => {
+        if (isEmpty(id)) {
+            console.log("initialState", initialState);
+            setState({ ...values });
+        } else {
+            setState({ ...data[id] });
+        }
+    }, [id, data]);
+
+    const handleInputChange = (e) => {
+        let { name, value } = e.target;
+        setState({
+            ...initialState,
+            [name]: value,
         });
+    };
 
-        console.log('Document written ID:', docRef.id);
-
-        setTitleFeedback('');
-        setCategoryFeedback('All');
-        setDetailFeedback('');
-        setStatusFeedback('Suggestion')
-
-    }
+    const handleSubmit = (e, err) => {
+        e.preventDefault();
+        console.log("initialState", initialState);
+        if (isEmpty(id)) {
+            dispatch(addFeedback(initialState));
+        } else {
+            if (err) {
+                console.log(err);
+            }
+        }
+        navigate("/")
+    };
 
     const cancelAddFeedback = () => {
-        alert('Feedback has been CANCELED!');
+        navigate("/")
     }
-
 
     return (
         <NewFeedbackContainer>
@@ -47,23 +72,23 @@ const CreateNewFeedbackPage = () => {
                 <NavbarFeedback />
                 <NewFeedbackInnerContainer>
                     <h2>Create New Feedback</h2>
-                    <NewFeedbackFormContainer>
+                    <NewFeedbackFormContainer onSubmit={handleSubmit}>
                         <h4>Feedback Title</h4>
-                        <label htmlFor="headline">Add a short, descriptive headline</label>
+                        <label htmlFor="title">Add a short, descriptive headline</label>
                         <input
                             type="text"
-                            name='headline'
-                            value={titleFeedback}
-                            onChange={(e) => setTitleFeedback(e.target.value)}
+                            name='title'
+                            value={title}
+                            onChange={handleInputChange}
                         />
 
                         <h4>Category</h4>
-                        <label htmlFor="categories">Choose a category for your feedback</label>
+                        <label htmlFor="category">Choose a category for your feedback</label>
                         <select
-                            value={categoryFeedback}
-                            name="categories"
-                            id="categories"
-                            onChange={(e) => setCategoryFeedback(e.target.value)}
+                            name="category"
+                            id="category"
+                            value={category}
+                            onChange={handleInputChange}
                         >
                             <option value="All">All</option>
                             <option value="UI">UI</option>
@@ -74,21 +99,22 @@ const CreateNewFeedbackPage = () => {
                         </select>
 
                         <h4>Feedback Detail</h4>
-                        <label htmlFor="details">Include any specific comments on what should be improved, added, etc.</label>
+                        <label htmlFor="detail">Include any specific comments on what should be improved, added, etc.</label>
                         <textarea
-                            name="details"
-                            id="details"
-                            value={detailFeedback}
-                            onChange={(e) => setDetailFeedback(e.target.value)}
+                            name="detail"
+                            id="detail"
+                            value={detail}
+                            onChange={handleInputChange}
                         />
                         <NewFeedbackButtonsContainer>
-                            <NewFeedbackButtonCancel onClick={cancelAddFeedback}>Cancel</NewFeedbackButtonCancel>
-                            <NewFeedbackButtonAdd type='submit' onClick={addFeedback}>Add Feedback</NewFeedbackButtonAdd>
+                            <NewFeedbackButtonCancel
+                                onClick={cancelAddFeedback}
+                            >Cancel</NewFeedbackButtonCancel>
+                            <NewFeedbackButtonAdd
+                                type='submit'
+                            >Add Feedback</NewFeedbackButtonAdd>
                         </NewFeedbackButtonsContainer>
                     </NewFeedbackFormContainer>
-
-
-
                 </NewFeedbackInnerContainer>
             </NewFeedbackWholeContainer>
         </NewFeedbackContainer>
