@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ThreadExcerpt from './ThreadExcerpt';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { getFeedbacks } from './../redux/actions';
+import { deleteFeedback, getFeedbacks } from './../redux/actions';
+import { Link } from 'react-router-dom';
 
 const ThreadsList = () => {
 
@@ -13,24 +13,31 @@ const ThreadsList = () => {
 
     useEffect(() => {
         dispatch(getFeedbacks());
-    }, [])
+    }, [dispatch]);
+
+    const deletePost = async (id) => {
+        dispatch(deleteFeedback(id))
+    };
 
     const renderedFeedbacks = Object.keys(data).map((id) => {
         return (
-            <ThreadExcerpt
-                id={data[id].id}
-                key={data[id].id}
-                title={data[id].title}
-                category={data[id].category}
-                detail={data[id].detail}
-                commentsCount={data[id].commentsCount}
-                upVotesCount={data[id].upVotesCount}
-            />
+            <div key={data[id].id} id={data[id].id}>
+                <ThreadExcerpt
+
+                    title={data[id].title}
+                    category={data[id].category}
+                    detail={data[id].detail}
+                    commentsCount={data[id].commentsCount}
+                    upVotesCount={data[id].upVotesCount}
+                />
+                <DeleteBtn onClick={() => deletePost(data[id].id)}>Delete</DeleteBtn>
+                <Link to={`/update/${id}`}>Edit this feedback</Link>
+            </div>
         )
     })
 
     return (
-        <ThreadListContainer>
+        <ThreadListContainer >
             {renderedFeedbacks}
         </ThreadListContainer>
     )
@@ -41,4 +48,8 @@ export default ThreadsList
 
 const ThreadListContainer = styled.div`
     height: 100vh;
+`;
+
+const DeleteBtn = styled.button`
+
 `;
