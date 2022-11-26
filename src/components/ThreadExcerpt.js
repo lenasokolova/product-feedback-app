@@ -3,31 +3,15 @@ import styled from 'styled-components';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { SidebarOption } from './Sidebar';
-import { useNavigate } from 'react-router-dom';
-import { selectFeedback } from '../features/feedbacks/feedbackSlice';
-import { useDispatch } from 'react-redux';
 
 
-const ThreadExcerpt = ({ id, title, category, detail, commentsCount, upVotesCount }) => {
 
-    const history = useNavigate();
-    const dispatch = useDispatch();
-
-    const openThread = () => {
-        dispatch(selectFeedback({
-            id,
-            title,
-            category,
-            detail,
-            commentsCount,
-            upVotesCount
-        }))
-
-        history('/feedback')
-    }
+const ThreadExcerpt = ({ onClick, id, title, category, detail, commentsCount, upVotesCount }) => {
 
     return (
-        <ThreadContainer id={id} onClick={openThread}>
+        <ThreadContainer
+            onClick={onClick}
+            id={id}>
             <ThreadLeft>
                 <ThreadVotes>
                     <ExpandLessIcon />
@@ -58,44 +42,6 @@ const ThreadExcerpt = ({ id, title, category, detail, commentsCount, upVotesCoun
 
 export default ThreadExcerpt;
 
-// const ThreadExcerpt = ({ feedback }) => {
-
-//     // const feedback = useSelector(state => selectFeedbackId(state, Number(feedbackId)))
-
-//     return (
-//         <Link to={`${feedback?.id}`}>
-//             <ThreadContainer>
-//                 <ThreadLeft>
-//                     <ThreadVotes>
-//                         <ExpandLessIcon />
-//                         <h4>{feedback?.upVotesCount}</h4>
-//                     </ThreadVotes>
-//                     <ThreadContent>
-//                         <ThreadInfo>
-//                             <h3>{feedback?.title}</h3>
-//                             <p>{feedback?.detail}</p>
-//                         </ThreadInfo>
-//                         <ThreadCategory>
-//                             <SidebarOption>{feedback?.category}</SidebarOption>
-//                         </ThreadCategory>
-//                     </ThreadContent>
-//                 </ThreadLeft>
-
-//                 <ThreadRight>
-//                     <ThreadComments>
-//                         <ChatBubbleIcon />
-//                         <h3>{feedback?.commentsCount}</h3>
-//                     </ThreadComments>
-//                 </ThreadRight>
-
-
-//             </ThreadContainer>
-//         </Link>
-//     )
-// }
-
-
-
 const ThreadContainer = styled.div`
     display: flex;
     background-color: #fff;
@@ -106,8 +52,6 @@ const ThreadContainer = styled.div`
     -webkit-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
     -moz-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
     box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
-
-
 `;
 
 const ThreadLeft = styled.div`
@@ -159,7 +103,6 @@ const ThreadInfo = styled.div`
         font-size: 12px;
         color: #464d7b;
     }
-
 `;
 
 const ThreadCategory = styled.div`
@@ -170,7 +113,6 @@ const ThreadRight = styled.div`
     display: flex;
     flex-grow: 1;
     justify-content: flex-end;
-
 `;
 
 const ThreadComments = styled.div`
