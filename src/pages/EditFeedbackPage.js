@@ -1,49 +1,65 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { selectOpenFeedback, editFeedback } from '../features/feedbacks/feedbackSlice';
+import React, { useEffect, useState } from 'react'
+
 import styled from 'styled-components';
 import NavbarFeedback from '../components/NavbarFeedback';
-import { db } from '../firebase';
-import { doc, setDoc } from 'firebase/firestore';
-import { updateDoc } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
 
+import { isEmpty } from "lodash";
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { editFeedback } from './../redux/actions';
 
 const EditFeedbackPage = () => {
 
-    const dispatch = useDispatch()
+    const values = {
+        category: "",
+        comments: [],
+        commentsCount: 0,
+        detail: "",
+        id: "",
+        status: "",
+        title: "",
+        upVotesCount: 0
+    };
 
-    const selectedFeedback = useSelector(selectOpenFeedback);
+    const [initialState, setState] = useState(values);
+    const { feedbacks: data } = useSelector((state) => state.data)
 
-    const [titleFeedback, setTitleFeedback] = useState(selectedFeedback?.title);
-    const [categoryFeedback, setCategoryFeedback] = useState(selectedFeedback?.category)
-    const [detailFeedback, setDetailFeedback] = useState(selectedFeedback?.detail);
-    const [statusFeedback, setStatusFeedback] = useState(selectedFeedback?.status);
+    const { title, category, detail, status } = initialState;
 
-    const cancelEditFeedback = () => {
-        alert('Feedback has been CANCELED!');
-    }
+    let dispatch = useDispatch();
+    const currentId = useParams();
+    const navigate = useNavigate();
 
-    const sendEditFeedback = (e) => {
+    const { id } = currentId;
+
+    useEffect(() => {
+        if (isEmpty(id)) {
+            console.log("initialState", initialState);
+            setState({ ...values });
+        } else {
+            setState({ ...data[id] });
+        }
+    }, [id, data]);
+
+    const handleInputChange = (e) => {
+        let { name, value } = e.target;
+        setState({
+            ...initialState,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("initialState", initialState);
+        dispatch(editFeedback(initialState, id));
 
-        const docRef = doc(db, 'feedbacks', selectedFeedback.id)
-
-        updateDoc(docRef, dispatch(editFeedback({
-            ...selectedFeedback,
-            title: titleFeedback,
-            category: categoryFeedback,
-            detail: detailFeedback,
-            status: statusFeedback,
-        }))).then(docRef => {
-            console.log("Document has been updated successfully")
-        }).catch(error => {
-            console.log(error)
-        })
+        navigate("/")
     }
 
-    const deleteFeedback = () => {
-        alert('Feedback has been DELETE!');
+    const cancelAddFeedback = () => {
+        navigate("/")
     }
 
     return (
@@ -52,23 +68,24 @@ const EditFeedbackPage = () => {
                 <NavbarFeedback />
                 <EditFeedbackInnerContainer>
                     <h2>Create Edit Feedback</h2>
-                    <EditFeedbackFormContainer>
+                    <EditFeedbackFormContainer onSubmit={handleSubmit}>
                         <h4>Feedback Title</h4>
-                        <label htmlFor="headline">Add a short, descriptive headline</label>
+                        <label htmlFor="title">Add a short, descriptive headline</label>
                         <input
                             type="text"
-                            name='headline'
-                            value={titleFeedback}
-                            onChange={(e) => setTitleFeedback(e.target.value)}
+                            name='title'
+                            value={title}
+                            onChange={handleInputChange}
+
                         />
 
                         <h4>Category</h4>
-                        <label htmlFor="categories">Choose a category for your feedback</label>
+                        <label htmlFor="category">Choose a category for your feedback</label>
                         <select
-                            value={categoryFeedback}
-                            name="categories"
-                            id="categories"
-                            onChange={(e) => setCategoryFeedback(e.target.value)}
+                            name="category"
+                            id="category"
+                            value={category}
+                            onChange={handleInputChange}
                         >
                             <option value="All">All</option>
                             <option value="UI">UI</option>
@@ -81,10 +98,10 @@ const EditFeedbackPage = () => {
                         <h4>Update Status</h4>
                         <label htmlFor="status">Change feedback status</label>
                         <select
-                            value={statusFeedback}
                             name="status"
                             id="status"
-                            onChange={(e) => setStatusFeedback(e.target.value)}
+                            value={status}
+                            onChange={handleInputChange}
                         >
                             <option value="Suggestion">Suggestion</option>
                             <option value="Planned">Planned</option>
@@ -93,18 +110,19 @@ const EditFeedbackPage = () => {
                         </select>
 
                         <h4>Feedback Detail</h4>
-                        <label htmlFor="details">Include any specific comments on what should be improved, added, etc.</label>
+                        <label htmlFor="detail">Include any specific comments on what should be improved, added, etc.</label>
                         <textarea
-                            name="details"
-                            id="details"
-                            value={detailFeedback}
-                            onChange={(e) => setDetailFeedback(e.target.value)}
+                            name="detail"
+                            id="detail"
+                            value={detail}
+                            onChange={handleInputChange}
+
                         />
                         <EditFeedbackButtonsContainer>
-                            <EditFeedbackButtonDelete onClick={deleteFeedback}>Delete</EditFeedbackButtonDelete>
+                            {/* <EditFeedbackButtonDelete onClick={deleteFeedback}>Delete</EditFeedbackButtonDelete> */}
 
-                            <EditFeedbackButtonCancel onClick={cancelEditFeedback}>Cancel</EditFeedbackButtonCancel>
-                            <EditFeedbackButtonAdd onClick={sendEditFeedback}>Edit Feedback</EditFeedbackButtonAdd>
+                            <EditFeedbackButtonCancel onClick={cancelAddFeedback}>Cancel</EditFeedbackButtonCancel>
+                            <EditFeedbackButtonAdd onClick={handleSubmit}>Edit Feedback</EditFeedbackButtonAdd>
                         </EditFeedbackButtonsContainer>
                     </EditFeedbackFormContainer>
 
@@ -115,6 +133,7 @@ const EditFeedbackPage = () => {
         </EditFeedbackContainer>
     )
 }
+
 
 export default EditFeedbackPage
 
