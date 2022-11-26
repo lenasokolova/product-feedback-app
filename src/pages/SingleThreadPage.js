@@ -1,12 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import styled from 'styled-components';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { selectOpenFeedback } from '../features/feedbacks/feedbackSlice';
 import { SidebarOption } from '../components/Sidebar';
 import AddCommentSection from '../components/AddCommentSection';
 import Comment from '../components/Comment';
@@ -14,34 +13,46 @@ import Comment from '../components/Comment';
 
 const SingleThreadPage = () => {
 
-    const history = useNavigate();
-    const selectedFeedback = useSelector(selectOpenFeedback);
+    const { feedbacks: data } = useSelector((state) => state.data)
+    const [initialState, setState] = useState(data);
+    const { title, category, detail, commentsCount, upVotesCount } = initialState;
+
+    let dispatch = useDispatch();
+    const currentId = useParams();
+    const navigate = useNavigate();
+
+    const { id } = currentId;
+
+    useEffect(() => {
+        setState({ ...data[id] });
+    }, [id, data]);
+
 
     return (
         <SingleThreadPageContainer>
             <SingleThreadPageContainerWhole>
                 <ThreadNav>
-                    <ThreadNavLeft onClick={() => history('/')}>
+                    <ThreadNavLeft onClick={() => navigate('/')}>
                         <NavigateBeforeIcon />
                         <p>Go Back</p>
                     </ThreadNavLeft>
                     <ThreadNavRight>
-                        <button onClick={() => history('/edit')}>Edit Feedback</button>
+                        <button onClick={() => navigate(`/update/${id}`)}>Edit Feedback</button>
                     </ThreadNavRight>
                 </ThreadNav >
                 <ThreadContainer>
                     <ThreadLeft>
                         <ThreadVotes>
                             <ExpandLessIcon />
-                            <h4>{selectedFeedback.upVotesCount}</h4>
+                            <h4>{upVotesCount}</h4>
                         </ThreadVotes>
                         <ThreadContent>
                             <ThreadInfo>
-                                <h3>{selectedFeedback.title}</h3>
-                                <p>{selectedFeedback.detail}</p>
+                                <h3>{title}</h3>
+                                <p>{detail}</p>
                             </ThreadInfo>
                             <ThreadCategory>
-                                <SidebarOption>{selectedFeedback.category}</SidebarOption>
+                                <SidebarOption>{category}</SidebarOption>
                             </ThreadCategory>
                         </ThreadContent>
                     </ThreadLeft>
@@ -49,7 +60,7 @@ const SingleThreadPage = () => {
                     <ThreadRight>
                         <ThreadComments>
                             <ChatBubbleIcon />
-                            <h3>{selectedFeedback.commentsCount}</h3>
+                            <h3>{commentsCount}</h3>
                         </ThreadComments>
                     </ThreadRight>
 
