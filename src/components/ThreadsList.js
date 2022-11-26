@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import ThreadExcerpt from './ThreadExcerpt';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteFeedback, getFeedbacks } from './../redux/actions';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ThreadsList = () => {
 
     const { feedbacks: data } = useSelector(state => state.data);
 
     let dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         dispatch(getFeedbacks());
@@ -21,9 +23,11 @@ const ThreadsList = () => {
 
     const renderedFeedbacks = Object.keys(data).map((id) => {
         return (
-            <div key={data[id].id} id={data[id].id}>
-                <ThreadExcerpt
+            <div key={data[id].id} id={data[id].id}
 
+            >
+                <ThreadExcerpt
+                    onClick={() => navigate(`/feedback/${id}`)}
                     title={data[id].title}
                     category={data[id].category}
                     detail={data[id].detail}
