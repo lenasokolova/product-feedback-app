@@ -1,6 +1,6 @@
 import * as types from './actionTypes'
 import { db } from '../firebase';
-import { addDoc, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
 import { feedbacksCollectionRef } from '../firebase';
 
 // get feedbacks actions
@@ -32,17 +32,31 @@ const deleteFeedbackFail = () => ({
     type: types.DELETE_FEEDBACK_FAIL,
 });
 
-// edit feedbacks actions
+// add feedbacks actions
 
 const addFeedbackStart = () => ({
-    type: types.EDIT_FEEDBACK_START,
+    type: types.ADD_FEEDBACK_START,
 });
 
 const addFeedbackSussess = () => ({
-    type: types.EDIT_FEEDBACK_SUCCESS,
+    type: types.ADD_FEEDBACK_SUCCESS,
 });
 
 const addFeedbackFail = () => ({
+    type: types.ADD_FEEDBACK_FAIL,
+});
+
+// edit feedbacks actions
+
+const editFeedbackStart = () => ({
+    type: types.EDIT_FEEDBACK_START,
+});
+
+const editFeedbackSussess = () => ({
+    type: types.EDIT_FEEDBACK_SUCCESS,
+});
+
+const editFeedbackFail = () => ({
     type: types.EDIT_FEEDBACK_FAIL,
 });
 
@@ -80,12 +94,28 @@ export const addFeedback = (feedback, err) => {
     };
 }
 
-export const deleteFeedback = (id, err) => {
+export const editFeedback = (feedback, id, err) => {
     return function (dispatch) {
+        dispatch(editFeedbackStart());
+
+        const feedDoc = doc(db, "feedbacks", id);
+        console.log(id)
+        setDoc(feedDoc, feedback)
+
+
+        dispatch(editFeedbackSussess());
+        if (err) {
+            dispatch(editFeedbackFail(err))
+        }
+    };
+}
+
+export const deleteFeedback = (id, err) => {
+    return async function (dispatch) {
         dispatch(deleteFeedbackStart());
 
         const feedDoc = doc(db, "feedbacks", id);
-        deleteDoc(feedDoc);
+        await deleteDoc(feedDoc);
         dispatch(deleteFeedbackSussess())
         if (err) {
             dispatch(deleteFeedbackFail(err))
