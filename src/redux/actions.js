@@ -1,7 +1,11 @@
 import * as types from './actionTypes'
 import { db } from '../firebase';
-import { addDoc, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { feedbacksCollectionRef } from '../firebase';
+import { commentsCollectionRef } from '../firebase';
+
+
+
 
 // get feedbacks actions
 
@@ -60,6 +64,20 @@ const editFeedbackFail = () => ({
     type: types.EDIT_FEEDBACK_FAIL,
 });
 
+// add comment to feedback actions
+
+const addCommentToFeedbackStart = () => ({
+    type: types.ADD_COMMENT_TO_FEEDBACK_START,
+})
+
+const addCommentToFeedbackSussess = () => ({
+    type: types.ADD_COMMENT_TO_FEEDBACK_SUCCESS,
+});
+
+const addCommentToFeedbackFail = () => ({
+    type: types.ADD_COMMENT_TO_FEEDBACK_FAIL,
+});
+
 
 export const getFeedbacks = () => {
     return function (dispatch) {
@@ -99,7 +117,6 @@ export const editFeedback = (feedback, id, err) => {
         dispatch(editFeedbackStart());
 
         const feedDoc = doc(db, "feedbacks", id);
-        console.log(id)
         setDoc(feedDoc, feedback)
 
 
@@ -121,4 +138,19 @@ export const deleteFeedback = (id, err) => {
             dispatch(deleteFeedbackFail(err))
         }
     };
+}
+
+// comments
+
+export const addCommentToFeedback = (comment, err) => {
+    return function (dispatch) {
+        dispatch(addCommentToFeedbackStart())
+
+        addDoc(commentsCollectionRef, comment)
+
+        dispatch(addCommentToFeedbackSussess());
+        if (err) {
+            dispatch(addCommentToFeedbackFail(err))
+        }
+    }
 }
