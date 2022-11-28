@@ -3,17 +3,17 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import NavbarFeedback from '../components/NavbarFeedback';
 
+
 import { isEmpty } from "lodash";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { editFeedback } from './../redux/actions';
+import { addFeedback, editFeedback } from './../redux/actions';
 
 const EditFeedbackPage = () => {
 
     const values = {
         category: "",
-        comments: [],
         commentsCount: 0,
         detail: "",
         id: "",
