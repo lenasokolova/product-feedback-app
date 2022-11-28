@@ -13,18 +13,18 @@ import Comment from '../components/Comment';
 
 const SingleThreadPage = () => {
 
-    const { feedbacks: data } = useSelector((state) => state.data)
-    const [initialState, setState] = useState(data);
+    const { feedbacks: data } = useSelector((state) => state.data);
+    const { comments } = useSelector((state) => state.comments);
+    const [initialState, setState] = useState(data, comments);
     const { title, category, detail, commentsCount, upVotesCount } = initialState;
 
-    let dispatch = useDispatch();
     const currentId = useParams();
     const navigate = useNavigate();
 
     const { id } = currentId;
 
     useEffect(() => {
-        setState({ ...data[id] });
+        setState({ ...data[id], comments });
     }, [id, data]);
 
 
