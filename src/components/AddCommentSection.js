@@ -1,16 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { nanoid } from '@reduxjs/toolkit';
+import { addCommentToFeedback } from '../redux/actions';
+import { isEmpty } from 'lodash';
+
 
 const AddCommentSection = () => {
+
+    const commentValues = {
+        id: nanoid(),
+        comment: ''
+    };
+
+    const [initialState, setState] = useState(commentValues);
+
+    // const { feedbacks: data } = useSelector((state) => state.data)
+    const { comments } = useSelector((state) => state.comments);
+
+    const { comment } = initialState
+
+    let dispatch = useDispatch()
+    const currentId = useParams();
+    const { id } = currentId;
+
+
+    useEffect(() => {
+        if (isEmpty(id)) {
+            console.log("initialState", initialState);
+            setState({ ...commentValues });
+        } else {
+            setState({ ...comments[id] });
+
+        }
+    }, [id, comments]);
+
+    const handleInputChange = (e) => {
+        let { name, value } = e.target;
+        setState({
+            ...initialState,
+            [name]: value,
+        });
+    };
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+
+        console.log("initialState", initialState);
+        dispatch(addCommentToFeedback(initialState));
+    }
+
     return (
         <AddCommentContainer>
             <h3>Add Comment</h3>
             <form>
-                <textarea name="" placeholder='Type your comment here' />
+                <textarea
+                    name="comment"
+                    id="comment"
+                    value={comment}
+                    onChange={handleInputChange}
+                    placeholder='Type your comment here'
+                />
             </form>
             <div>
                 <span>250 Characters left</span>
-                <button>Post comment</button>
+                <button onClick={handleCommentSubmit}>Post comment</button>
             </div>
         </AddCommentContainer>
     )
