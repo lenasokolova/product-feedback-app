@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Comment = () => {
+const Comment = ({ comment, id }) => {
     return (
-        <CommentContainer>
+        <CommentContainer id={id}>
             <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Z3V5fGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="user avatar" />
             <CommentBody>
                 <CommentInfo>
