@@ -12,7 +12,6 @@ import { addFeedback } from './../redux/actions';
 const CreateNewFeedbackPage = () => {
     const values = {
         category: "",
-        comments: [],
         commentsCount: 0,
         detail: "",
         id: nanoid(),
@@ -32,12 +31,14 @@ const CreateNewFeedbackPage = () => {
 
     const { id } = currentId;
 
+
     useEffect(() => {
         if (isEmpty(id)) {
             console.log("initialState", initialState);
             setState({ ...values });
         } else {
             setState({ ...data[id] });
+
         }
     }, [id, data]);
 
