@@ -6,7 +6,7 @@ import { SidebarOption } from './Sidebar';
 
 
 
-const ThreadExcerpt = ({ onClick, id, title, category, detail, commentsCount, upVotesCount }) => {
+const ThreadExcerpt = ({ onClick, id, title, category, detail, comments, upVotesCount }) => {
 
     return (
         <ThreadContainer
@@ -31,7 +31,7 @@ const ThreadExcerpt = ({ onClick, id, title, category, detail, commentsCount, up
             <ThreadRight>
                 <ThreadComments>
                     <ChatBubbleIcon />
-                    <h3>{commentsCount}</h3>
+                    <h3>{comments}</h3>
                 </ThreadComments>
             </ThreadRight>
 
