@@ -9,24 +9,32 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { SidebarOption } from '../components/Sidebar';
 import AddCommentSection from '../components/AddCommentSection';
 import Comment from '../components/Comment';
+import { getSingleFeedback } from '../redux/actions';
 
 
 const SingleThreadPage = () => {
 
-    const { feedbacks: data } = useSelector((state) => state.data);
-    const { comments } = useSelector((state) => state.comments);
-    const [initialState, setState] = useState(data, comments);
-    const { title, category, detail, commentsCount, upVotesCount } = initialState;
+    const [state, setState] = useState();
+    const { feedback } = useSelector((state) => state.data);
+    const { category, detail, title, upVotesCount, comments } = feedback;
 
-    const currentId = useParams();
+    console.log(feedback)
+
+
+    const { id } = useParams();
+    const dispatch = useDispatch();
+
+
+    // console.log(data[id])
+    // const [initialState, setState] = useState(data);
+    // const { title, category, detail, comments, upVotesCount } = initialState;
+    // console.log(title)
+
     const navigate = useNavigate();
 
-    const { id } = currentId;
-
     useEffect(() => {
-        setState({ ...data[id], comments });
-    }, [id, data]);
-
+        dispatch(getSingleFeedback(id))
+    }, [])
 
     return (
         <SingleThreadPageContainer>
@@ -44,7 +52,7 @@ const SingleThreadPage = () => {
                     <ThreadLeft>
                         <ThreadVotes>
                             <ExpandLessIcon />
-                            <h4>{upVotesCount}</h4>
+                            <h4>{upVotesCount?.length}</h4>
                         </ThreadVotes>
                         <ThreadContent>
                             <ThreadInfo>
@@ -60,7 +68,7 @@ const SingleThreadPage = () => {
                     <ThreadRight>
                         <ThreadComments>
                             <ChatBubbleIcon />
-                            <h3>{commentsCount}</h3>
+                            <h3>{comments?.length}</h3>
                         </ThreadComments>
                     </ThreadRight>
 
