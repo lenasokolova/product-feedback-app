@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import DashboardPage from './pages/DashboardPage';
 import SingleThreadPage from './pages/SingleThreadPage';
 import EditFeedbackPage from './pages/EditFeedbackPage';
+import RoadmapPage from './pages/RoadmapPage';
 
 const App = () => {
   return (
@@ -13,11 +14,11 @@ const App = () => {
 
       <Route path='/' element={<DashboardPage />}>
       </Route>
-      <Route path='/feedback' element={<SingleThreadPage />} />
+      <Route path='/roadmap' element={<RoadmapPage />} />
+
+      <Route path='/feedback/:id' element={<SingleThreadPage />} />
       <Route path='/add-feedback' element={<CreateNewFeedbackPage />} />
-      <Route path='/edit' element={<EditFeedbackPage />} />
-
-
+      <Route path='/update/:id' element={<EditFeedbackPage />} />
 
     </Routes>
   );
