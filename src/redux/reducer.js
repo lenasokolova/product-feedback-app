@@ -2,6 +2,7 @@ import * as types from './actionTypes'
 
 const initialState = {
     feedbacks: [],
+    feedback: {},
     loading: false,
     error: null,
 };
@@ -9,6 +10,7 @@ const initialState = {
 const feedbackReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_FEEDBACKS_START:
+        case types.GET_SINGLE_FEEDBACK_START:
             return {
                 ...state,
                 loading: true
@@ -19,7 +21,14 @@ const feedbackReducer = (state = initialState, action) => {
                 loading: false,
                 feedbacks: action.payload,
             }
+        case types.GET_SINGLE_FEEDBACK_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                feedback: action.payload,
+            }
         case types.GET_FEEDBACKS_FAIL:
+        case types.GET_SINGLE_FEEDBACK_FAIL:
             return {
                 ...state,
                 loading: false,
