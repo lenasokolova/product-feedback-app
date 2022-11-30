@@ -7,65 +7,42 @@ import { isEmpty } from "lodash";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addFeedback } from './../redux/actions';
+import { addFeedback, editFeedback } from './../redux/actions';
+import { Timestamp } from 'firebase/firestore';
+
+const initialState = {
+    category: "All",
+    comments: [],
+    detail: "",
+    id: nanoid(),
+    createdAt: Timestamp.now().toDate(),
+    status: "Suggestion",
+    title: "",
+    upVotesCount: []
+}
 
 const CreateNewFeedbackPage = () => {
-    const values = {
-        category: "",
-        commentsCount: 0,
-        detail: "",
-        id: nanoid(),
-        status: "Suggestion",
-        title: "",
-        upVotesCount: 0
-    };
 
-    const [initialState, setState] = useState(values);
-    const { feedbacks: data } = useSelector((state) => state.data)
+    const [state, setState] = useState(initialState);
 
-    const { title, category, detail } = initialState;
+    const { category, detail, title } = state;
 
-    let dispatch = useDispatch();
-    const currentId = useParams();
-    const navigate = useNavigate();
-
-    const { id } = currentId;
-
-
-    useEffect(() => {
-        if (isEmpty(id)) {
-            console.log("initialState", initialState);
-            setState({ ...values });
-        } else {
-            setState({ ...data[id] });
-
-        }
-    }, [id, data]);
+    const dispatch = useDispatch();
 
     const handleInputChange = (e) => {
         let { name, value } = e.target;
-        setState({
-            ...initialState,
-            [name]: value,
-        });
-    };
-
-    const handleSubmit = (e, err) => {
-        e.preventDefault();
-        console.log("initialState", initialState);
-        if (isEmpty(id)) {
-            dispatch(addFeedback(initialState));
-        } else {
-            if (err) {
-                console.log(err);
-            }
-        }
-        navigate("/")
-    };
-
-    const cancelAddFeedback = () => {
-        navigate("/")
+        setState({ ...state, [name]: value })
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addFeedback(state));
+        setState({ ...state, title: '', detail: "", category: "All" })
+    }
+
+    const cancelAddFeedback = () => { }
+
+
 
     return (
         <NewFeedbackContainer>
@@ -212,3 +189,121 @@ const NewFeedbackButtonAdd = styled.button`
     }
 `;
 
+// -----------------------------------------------------------------
+/*
+const CreateNewFeedbackPage = () => {
+    const values = {
+        category: "",
+        comments: [],
+        detail: "",
+        id: nanoid(),
+        createdAt: Timestamp.now().toDate(),
+        status: "Suggestion",
+        title: "",
+        upVotesCount: []
+    };
+
+    const [initialState, setState] = useState(values);
+    const { feedbacks: data } = useSelector((state) => state.data)
+
+    const { title, category, detail } = initialState;
+
+    let dispatch = useDispatch();
+    const currentId = useParams();
+    const navigate = useNavigate();
+
+    const { id } = currentId;
+
+
+    useEffect(() => {
+        if (isEmpty(id)) {
+            console.log("initialState", initialState);
+            setState({ ...values });
+        } else {
+            setState({ ...data[id] });
+
+        }
+    }, [id, data]);
+
+    const handleInputChange = (e) => {
+        let { name, value } = e.target;
+        setState({
+            ...initialState,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = (e, err) => {
+        e.preventDefault();
+        console.log("initialState", initialState);
+        if (isEmpty(id)) {
+            dispatch(addFeedback(initialState));
+        } else {
+            if (err) {
+                console.log(err);
+            }
+        }
+        navigate("/")
+    };
+
+    const cancelAddFeedback = () => {
+        navigate("/")
+    }
+
+    return (
+        <NewFeedbackContainer>
+            <NewFeedbackWholeContainer>
+                <NavbarFeedback />
+                <NewFeedbackInnerContainer>
+                    <h2>Create New Feedback</h2>
+                    <NewFeedbackFormContainer onSubmit={handleSubmit}>
+                        <h4>Feedback Title</h4>
+                        <label htmlFor="title">Add a short, descriptive headline</label>
+                        <input
+                            type="text"
+                            name='title'
+                            value={title}
+                            onChange={handleInputChange}
+                        />
+
+                        <h4>Category</h4>
+                        <label htmlFor="category">Choose a category for your feedback</label>
+                        <select
+                            name="category"
+                            id="category"
+                            value={category}
+                            onChange={handleInputChange}
+                        >
+                            <option value="All">All</option>
+                            <option value="UI">UI</option>
+                            <option value="UX">UX</option>
+                            <option value="Enhancement">Enhancement</option>
+                            <option value="Bug">Bug</option>
+                            <option value="Feature">Feature</option>
+                        </select>
+
+                        <h4>Feedback Detail</h4>
+                        <label htmlFor="detail">Include any specific comments on what should be improved, added, etc.</label>
+                        <textarea
+                            name="detail"
+                            id="detail"
+                            value={detail}
+                            onChange={handleInputChange}
+                        />
+                        <NewFeedbackButtonsContainer>
+                            <NewFeedbackButtonCancel
+                                onClick={cancelAddFeedback}
+                            >Cancel</NewFeedbackButtonCancel>
+                            <NewFeedbackButtonAdd
+                                type='submit'
+                            >Add Feedback</NewFeedbackButtonAdd>
+                        </NewFeedbackButtonsContainer>
+                    </NewFeedbackFormContainer>
+                </NewFeedbackInnerContainer>
+            </NewFeedbackWholeContainer>
+        </NewFeedbackContainer>
+    )
+}
+
+export default CreateNewFeedbackPage;
+ */
