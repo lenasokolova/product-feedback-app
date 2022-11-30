@@ -1,8 +1,8 @@
 import * as types from './actionTypes'
 import { db } from '../firebase';
-import { addDoc, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { feedbacksCollectionRef } from '../firebase';
-import { commentsCollectionRef } from '../firebase';
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, setDoc, updateDoc } from "firebase/firestore";
+// import { feedbacksCollectionRef } from '../firebase';
+// import { commentsCollectionRef } from '../firebase';
 
 
 
@@ -20,6 +20,21 @@ const getFeedbacksSussess = (feedbacks) => ({
 
 const getFeedbacksFail = () => ({
     type: types.GET_FEEDBACKS_FAIL,
+});
+
+// get ONE feedback actions
+
+const getSingleFeedbackStart = () => ({
+    type: types.GET_SINGLE_FEEDBACK_START,
+});
+
+const getSingleFeedbackSussess = (feedback) => ({
+    type: types.GET_SINGLE_FEEDBACK_SUCCESS,
+    payload: feedback
+});
+
+const getSingleFeedbackFail = () => ({
+    type: types.GET_SINGLE_FEEDBACK_FAIL,
 });
 
 // delete feedbacks actions
@@ -79,32 +94,30 @@ const addCommentToFeedbackFail = () => ({
 });
 
 
-export const getFeedbacks = () => {
+export const getFeedbacks = (err) => {
     return function (dispatch) {
-        dispatch(getFeedbacksStart())
-
-        const getData = async () => {
-            try {
-                const querySnapshot = await getDocs(feedbacksCollectionRef);
-                const feedbacks = querySnapshot.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc.id
-                }))
-                dispatch(getFeedbacksSussess(feedbacks));
-
-            } catch (error) {
-                dispatch(getFeedbacksFail(error))
-            }
+        dispatch(getFeedbacksStart());
+        db.collection("feedbacks").onSnapshot((querySnapshot) => {
+            const feedbacks = [];
+            querySnapshot.forEach((doc) => {
+                feedbacks.push({ ...doc.data(), id: doc.id })
+            });
+            dispatch(getFeedbacksSussess(feedbacks));
+        });
+        if (err) {
+            dispatch(getFeedbacksFail(err))
         }
-        getData();
     }
 }
+
 
 export const addFeedback = (feedback, err) => {
     return function (dispatch) {
         dispatch(addFeedbackStart());
 
-        addDoc(feedbacksCollectionRef, feedback)
+        db.collection("feedbacks").doc().set(feedback);
+
+        // addDoc(feedbacksCollectionRef, feedback)
         dispatch(addFeedbackSussess());
         if (err) {
             dispatch(addFeedbackFail(err))
@@ -112,13 +125,17 @@ export const addFeedback = (feedback, err) => {
     };
 }
 
-export const editFeedback = (feedback, id, err) => {
-    return function (dispatch) {
+export const editFeedbackInit = (feedback, id, err) => {
+    return async function (dispatch) {
         dispatch(editFeedbackStart());
+        console.log(id)
+
+        // await db.collection("feedbacks").doc(id).update(feedback);
+        // console.log(id)
 
         const feedDoc = doc(db, "feedbacks", id);
-        setDoc(feedDoc, feedback)
-
+        await updateDoc(feedDoc, feedback);
+        console.log(id)
 
         dispatch(editFeedbackSussess());
         if (err) {
@@ -127,16 +144,28 @@ export const editFeedback = (feedback, id, err) => {
     };
 }
 
-export const deleteFeedback = (id, err) => {
-    return async function (dispatch) {
+export const deleteFeedbackInit = (id, err) => {
+    return function (dispatch) {
         dispatch(deleteFeedbackStart());
 
-        const feedDoc = doc(db, "feedbacks", id);
-        await deleteDoc(feedDoc);
-        dispatch(deleteFeedbackSussess())
+        db.collection("feedbacks").doc(id).delete();
+        dispatch(deleteFeedbackSussess());
         if (err) {
             dispatch(deleteFeedbackFail(err))
         }
+    };
+}
+
+export const getSingleFeedback = (id) => {
+    return function (dispatch) {
+        dispatch(getSingleFeedbackStart());
+
+        db.collection("feedbacks")
+            .doc(id)
+            .get()
+            .then((feedback) => {
+                dispatch(getSingleFeedbackSussess({ ...feedback.data() }));
+            }).catch(error => dispatch(getSingleFeedbackFail(error)));
     };
 }
 
@@ -146,7 +175,7 @@ export const addCommentToFeedback = (comment, err) => {
     return function (dispatch) {
         dispatch(addCommentToFeedbackStart())
 
-        addDoc(commentsCollectionRef, comment)
+        // addDoc(commentsCollectionRef, comment)
 
         dispatch(addCommentToFeedbackSussess());
         if (err) {
