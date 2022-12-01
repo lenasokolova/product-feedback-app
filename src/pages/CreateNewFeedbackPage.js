@@ -28,6 +28,7 @@ const CreateNewFeedbackPage = () => {
     const { category, detail, title } = state;
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         let { name, value } = e.target;
@@ -37,12 +38,13 @@ const CreateNewFeedbackPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(addFeedback(state));
-        setState({ ...state, title: '', detail: "", category: "All" })
+        setState({ ...state, title: '', detail: "", category: "All" });
+        navigate("/");
     }
 
-    const cancelAddFeedback = () => { }
-
-
+    const cancelAddFeedback = () => {
+        navigate("/");
+    }
 
     return (
         <NewFeedbackContainer>
