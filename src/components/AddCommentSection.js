@@ -4,51 +4,54 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import { addCommentToFeedback } from '../redux/actions';
-import { isEmpty } from 'lodash';
+import { arrayUnion, doc, Timestamp } from 'firebase/firestore';
+import { updateDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
+const initialState = {
+    category: "All",
+    comments: [],
+    detail: "",
+    id: nanoid(),
+    createdAt: Timestamp.now().toDate(),
+    status: "Suggestion",
+    title: "",
+    upVotesCount: []
+}
 
 const AddCommentSection = () => {
 
-    const commentValues = {
-        id: nanoid(),
-        comment: ''
-    };
+    // const [state, setState] = useState(initialState);
+    // const { feedback } = useSelector((state) => state.data);
 
-    const [initialState, setState] = useState(commentValues);
+    const { id } = useParams();
+    console.log("id from params => ", id)
 
-    // const { feedbacks: data } = useSelector((state) => state.data)
-    const { comments } = useSelector((state) => state.comments);
 
-    const { comment } = initialState
+    const [comment, setComment] = useState("");
+    const commentRef = doc(db, "feedbacks", id)
+    console.log("commentRef => ", commentRef)
+
+
 
     let dispatch = useDispatch()
-    const currentId = useParams();
-    const { id } = currentId;
-
-
-    useEffect(() => {
-        if (isEmpty(id)) {
-            console.log("initialState", initialState);
-            setState({ ...commentValues });
-        } else {
-            setState({ ...comments[id] });
-
-        }
-    }, [id, comments]);
 
     const handleInputChange = (e) => {
         let { name, value } = e.target;
-        setState({
-            ...initialState,
-            [name]: value,
-        });
-    };
+        setComment({ ...comment, [name]: value })
+    }
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
+        alert("Youre comment is => ", comment)
+        updateDoc(commentRef, {
+            comments: arrayUnion({
+                comment: comment,
+                createdAt: Timestamp.now().toDate(),
+                commentId: nanoid(),
+            })
+        })
 
-        console.log("initialState", initialState);
-        dispatch(addCommentToFeedback(initialState));
     }
 
     return (
@@ -59,13 +62,13 @@ const AddCommentSection = () => {
                     name="comment"
                     id="comment"
                     value={comment}
-                    onChange={handleInputChange}
+                    onChange={(e) => { setComment(e.target.value) }}
                     placeholder='Type your comment here'
                 />
             </form>
             <div>
                 <span>250 Characters left</span>
-                <button onClick={handleCommentSubmit}>Post comment</button>
+                <button onClick={(e) => { handleCommentSubmit(e) }}>Post comment</button>
             </div>
         </AddCommentContainer>
     )
