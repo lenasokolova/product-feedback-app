@@ -1,49 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
-import { addCommentToFeedback } from '../redux/actions';
 import { arrayUnion, doc, Timestamp } from 'firebase/firestore';
 import { updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-const initialState = {
-    category: "All",
-    comments: [],
-    detail: "",
-    id: nanoid(),
-    createdAt: Timestamp.now().toDate(),
-    status: "Suggestion",
-    title: "",
-    upVotesCount: []
-}
-
 const AddCommentSection = () => {
 
-    // const [state, setState] = useState(initialState);
-    // const { feedback } = useSelector((state) => state.data);
-
     const { id } = useParams();
-    console.log("id from params => ", id)
 
-
-    const [comment, setComment] = useState("");
-    const commentRef = doc(db, "feedbacks", id)
-    console.log("commentRef => ", commentRef)
-
-
-
-    let dispatch = useDispatch()
-
-    const handleInputChange = (e) => {
-        let { name, value } = e.target;
-        setComment({ ...comment, [name]: value })
-    }
+    const [comment, setComment] = useState({
+        comment: '',
+        createdAt: Timestamp.now().toDate(),
+        commentId: nanoid(),
+    });
+    const commentRef = doc(db, "feedbacks", id);
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
-        alert("Youre comment is => ", comment)
+
         updateDoc(commentRef, {
             comments: arrayUnion({
                 comment: comment,
@@ -61,7 +37,7 @@ const AddCommentSection = () => {
                 <textarea
                     name="comment"
                     id="comment"
-                    value={comment}
+                    value={comment.comment}
                     onChange={(e) => { setComment(e.target.value) }}
                     placeholder='Type your comment here'
                 />
