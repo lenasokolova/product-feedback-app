@@ -7,29 +7,41 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleFeedback, editFeedbackInit } from './../redux/actions';
-import { Timestamp } from 'firebase/firestore';
+import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { nanoid } from '@reduxjs/toolkit';
 import { useRef } from 'react';
+import { db } from '../firebase';
 
 
 
 const EditFeedbackPage = () => {
 
+    const params = useParams();
+    const { id } = params;
+    console.log("this is id from params", id);
+
+    const feedDocRef = doc(db, "feedbacks", id);
+    console.log("this is feedDocRef => ", feedDocRef)
+
+
+
     const { feedback } = useSelector((state) => state.data);
-    const { category, detail, title, status, id: feedbackId } = feedback;
+    const { category, detail, title, status,
+        // id: feedbackId 
+    } = feedback;
 
     const initialState = {
         category: category,
         comments: [],
         detail: detail,
-        id: feedbackId,
+        // id: feedbackId,
         createdAt: Timestamp.now().toDate(),
         status: status,
         title: title,
         upVotesCount: []
     }
 
-    const { id: feedId } = initialState
+    // const { id: feedId } = initialState
 
     const [state, setState] = useState(initialState);
 
@@ -46,24 +58,23 @@ const EditFeedbackPage = () => {
 
     }, []);
 
-    const params = useParams();
-    const { id } = params;
-
-    const editFeedback = (e, feedId) => {
-        e.preventDefault();
-        dispatch(editFeedbackInit(feedId, feedback))
-    }
 
     const handleInputChange = (e) => {
         let { name, value } = e.target;
         setState({ ...state, [name]: value })
-        // console.log("this is new state => ", state)
 
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setState({ ...state, title: '', detail: "", category: "All" })
+        // setState({ ...state, title: '', detail: "", category: "All" })
+    }
+
+    const editFeedback = async (e) => {
+        e.preventDefault();
+        await updateDoc(feedDocRef, state);
+        setState({ ...state, title: '', detail: "", category: "All" });
+        navigate(`/feedback/${id}`)
     }
 
     return (
@@ -73,7 +84,7 @@ const EditFeedbackPage = () => {
                 <EditFeedbackInnerContainer>
                     <h2>Edit Feedback</h2>
                     <EditFeedbackFormContainer
-                        onSubmit={handleSubmit}
+                    // onSubmit={handleSubmit}
                     >
                         <h4>Feedback Title</h4>
                         <label htmlFor="title">Add a short, descriptive headline</label>
@@ -141,6 +152,7 @@ const EditFeedbackPage = () => {
 
                             <EditFeedbackButtonCancel onClick={cancelAddFeedback}>Cancel</EditFeedbackButtonCancel>
                             <EditFeedbackButtonAdd
+                                type='submit'
                                 onClick={editFeedback}
                             >Edit Feedback</EditFeedbackButtonAdd>
                         </EditFeedbackButtonsContainer>
