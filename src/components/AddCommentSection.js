@@ -16,6 +16,7 @@ const AddCommentSection = () => {
         commentId: nanoid(),
     });
     const commentRef = doc(db, "feedbacks", id);
+    console.log("this is comment ref =>", commentRef)
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
@@ -27,6 +28,7 @@ const AddCommentSection = () => {
                 commentId: nanoid(),
             })
         })
+        setComment({ ...comment, comment: '' });
 
     }
 
