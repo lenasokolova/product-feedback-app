@@ -7,28 +7,28 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
 import { SidebarOption } from './Sidebar';
 
-const RoadmapFeedCard = () => {
+const RoadmapFeedCard = ({ onClick, id, title, category, detail, comments, upVotesCount, status }) => {
     return (
-        <FeedCardContainer>
+        <FeedCardContainer onClick={onClick} id={id}>
             <FeedCardTop>
-                <SidebarStatOption Icon={FiberManualRecordIcon} title='Planned' color='#efa08c' />
+                <SidebarStatOption Icon={FiberManualRecordIcon} title={status} color='#efa08c' />
             </FeedCardTop>
 
             <FeedCardBody>
-                <h4>More comprehensive reports</h4>
-                <p>Lorem ipsum lalala ipsum lalala ipsum lalala ipsum lalala</p>
-                <SidebarOption>Feature</SidebarOption>
+                <h4>{title}</h4>
+                <p>{detail}</p>
+                <SidebarOption>{category}</SidebarOption>
             </FeedCardBody>
 
 
             <FeedCardBottom>
                 <ThreadVotes>
                     <ExpandLessIcon />
-                    <h4>123</h4>
+                    <h4>{upVotesCount}</h4>
                 </ThreadVotes>
                 <ThreadComments>
                     <ChatBubbleIcon />
-                    <h3>2</h3>
+                    <h3>{comments}</h3>
                 </ThreadComments>
             </FeedCardBottom>
 
@@ -40,6 +40,7 @@ export default RoadmapFeedCard;
 
 
 const FeedCardContainer = styled.div`
+    width: 240px;
     max-width: 240px;
     min-width: 200px;
     border-radius: 10px;
@@ -64,6 +65,8 @@ const FeedCardBottom = styled.div`
 const FeedCardTop = styled.div``;
 
 const FeedCardBody = styled.div`
+    width: 100%;
+
     >h4 {
         font-size: 14px;
         margin-bottom: 15px;
@@ -72,6 +75,8 @@ const FeedCardBody = styled.div`
     >p {
         font-size: 12px;
         margin-bottom: 15px;
+        word-wrap: break-word;
+        
     }
 `;
 
