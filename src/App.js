@@ -6,11 +6,17 @@ import DashboardPage from './pages/DashboardPage';
 import SingleThreadPage from './pages/SingleThreadPage';
 import EditFeedbackPage from './pages/EditFeedbackPage';
 import RoadmapPage from './pages/RoadmapPage';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
 
 const App = () => {
   return (
 
     <Routes>
+      <Route path='/register' element={<Register />} />
+      <Route path='/login' element={<Login />} />
+
+
 
       <Route path='/' element={<DashboardPage />}>
       </Route>
