@@ -2,13 +2,39 @@ import React from 'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import SidebarStatOption from './SidebarStatOption';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../firebase';
+
 
 const Sidebar = () => {
+
+    const [user] = useAuthState(auth)
+    console.log("this is user =>", user)
+
+    const { feedbacks } = useSelector(state => state.data);
+
+    const feedbacksPlanned = feedbacks.filter(function (feedback) {
+        return feedback.status === 'Planned'
+    });
+
+    const feedbacksInProgress = feedbacks.filter(function (feedback) {
+        return feedback.status === 'In-Progress'
+    });
+
+    const feedbacksLive = feedbacks.filter(function (feedback) {
+        return feedback.status === 'Live'
+    })
+
     return (
         <SidebarContainer>
             <SidebarHeader>
                 <h3>Frontend Mentor</h3>
                 <p>Feedback Board</p>
+                {user && (
+                    <span>Signed in as {user.displayName || user.email}</span>
+                )}
             </SidebarHeader>
             <SidebarOptionContainer>
                 <SidebarOption>All</SidebarOption>
@@ -21,12 +47,12 @@ const Sidebar = () => {
             <SidebarStatsContainer>
                 <SidebarStatsHeader>
                     <h3>Roadmap</h3>
-                    <span>View</span>
+                    <Link to={"/roadmap"}><span>View</span></Link>
                 </SidebarStatsHeader>
                 <SidebarStatsBody>
-                    <SidebarStatOption Icon={FiberManualRecordIcon} title='Planned' number={2} color='#efa08c' />
-                    <SidebarStatOption Icon={FiberManualRecordIcon} title='In-progress' number={3} color='#ae1feb' />
-                    <SidebarStatOption Icon={FiberManualRecordIcon} title='Live' number={1} color='#71b2f7' />
+                    <SidebarStatOption Icon={FiberManualRecordIcon} title={'Planned'} number={feedbacksPlanned.length} color='#efa08c' />
+                    <SidebarStatOption Icon={FiberManualRecordIcon} title='In-progress' number={feedbacksInProgress.length} color='#ae1feb' />
+                    <SidebarStatOption Icon={FiberManualRecordIcon} title='Live' number={feedbacksLive.length} color='#71b2f7' />
                 </SidebarStatsBody>
 
 
