@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const NavabarRoadmap = () => {
+
     return (
         <div>
             <NavContainer>
@@ -13,7 +14,9 @@ const NavabarRoadmap = () => {
                     <NavLeftContainer>
                         <NavLeftTop>
                             <NavigateBeforeIcon />
-                            <p>Go Back</p>
+                            <StyledLink to='/' >
+                                <p>Go Back</p>
+                            </StyledLink>
                         </NavLeftTop>
                         <NavLeftBottom>
                             <h3>Roadmap</h3>
@@ -22,12 +25,12 @@ const NavabarRoadmap = () => {
 
 
                     <NavRight>
-                        <Link to='/add-feedback'>
+                        <StyledLink to='/add-feedback'>
                             <button>
                                 <AddIcon />
                                 <p>Add Feedback</p>
                             </button>
-                        </Link>
+                        </StyledLink>
                     </NavRight>
                 </NavHeader>
             </NavContainer>
@@ -64,9 +67,18 @@ const NavLeftTop = styled.div`
         margin-right: 8px;
     }
 
+    >Link {
+        color: #fff;
+    }
+
     >h3 {
         font-size: 14px;
     }
+`;
+
+const StyledLink = styled(Link)`
+    color: #fff;
+    text-decoration: none;
 `;
 
 const NavLeftBottom = styled.div``;
