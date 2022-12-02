@@ -1,25 +1,47 @@
-import React from 'react'
+import { doc, onSnapshot } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
+import { db } from '../firebase';
 
-const Comment = ({ comment, id }) => {
+const Comment = () => {
+
+    const { id } = useParams();
+    const [comments, setComments] = useState([]);
+
+
+    useEffect(() => {
+        const commentRef = doc(db, "feedbacks", id);
+        onSnapshot(commentRef, (snapshot) => {
+            setComments(snapshot.data().comments);
+        })
+    }, [])
+
+    console.log(comments)
+
     return (
-        <CommentContainer id={id}>
-            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Z3V5fGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="user avatar" />
-            <CommentBody>
-                <CommentInfo>
-                    <CommentInfoLeft>
-                        <h4>Elijah Moss</h4>
-                        <span>@hexagon.bestagon</span>
-                    </CommentInfoLeft>
-                    <CommentInfoRight>
-                        <span>Reply</span>
-                    </CommentInfoRight>
-                </CommentInfo>
-                <CommentText>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </CommentText>
-            </CommentBody>
-        </CommentContainer>
+        <>
+            {comments !== null && comments.map(({ comment, commentId }) => (
+                <CommentContainer key={commentId} id={commentId}>
+                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Z3V5fGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="user avatar" />
+                    <CommentBody>
+                        <CommentInfo>
+                            <CommentInfoLeft>
+                                <h4>Elijah Moss</h4>
+                                <span>@hexagon.bestagon</span>
+                            </CommentInfoLeft>
+                            <CommentInfoRight>
+                                <span>Reply</span>
+                            </CommentInfoRight>
+                        </CommentInfo>
+                        <CommentText>
+                            <p>{comment}</p>
+                        </CommentText>
+                    </CommentBody>
+                </CommentContainer>
+            ))}
+
+        </>
     )
 }
 
@@ -44,6 +66,8 @@ const CommentContainer = styled.div`
 const CommentBody = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
+
 `;
 
 
@@ -74,8 +98,10 @@ const CommentInfoRight = styled.div`
 `;
 
 const CommentText = styled.div`
+    width: 100%;
+
     >p {
-        font-size: 12px;
+        font-size: 14px;
     }
 `;
 
