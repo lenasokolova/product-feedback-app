@@ -28,10 +28,7 @@ const ThreadNav = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-
-    >Link {
-        
-    }
+    width: 100%;
 `;
 
 const ThreadNavLeft = styled.div`
