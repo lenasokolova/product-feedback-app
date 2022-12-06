@@ -21,14 +21,14 @@ const Comment = () => {
 
     return (
         <>
-            {comments !== null && comments.map(({ comment, commentId }) => (
+            {comments !== null && comments.map(({ comment, commentId, createdBy, photo }) => (
                 <CommentContainer key={commentId} id={commentId}>
-                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Z3V5fGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="user avatar" />
+                    <img src={photo} alt="user avatar" />
                     <CommentBody>
                         <CommentInfo>
                             <CommentInfoLeft>
-                                <h4>Elijah Moss</h4>
-                                <span>@hexagon.bestagon</span>
+                                <h4>{createdBy}</h4>
+                                <span>@{createdBy}</span>
                             </CommentInfoLeft>
                             <CommentInfoRight>
                                 <span>Reply</span>
