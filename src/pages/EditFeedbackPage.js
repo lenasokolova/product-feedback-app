@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
 import styled from 'styled-components';
 import NavbarFeedback from '../components/NavbarFeedback';
-
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSingleFeedback, editFeedbackInit } from './../redux/actions';
-import { doc, Timestamp, updateDoc } from 'firebase/firestore';
-import { nanoid } from '@reduxjs/toolkit';
-import { useRef } from 'react';
+import { getSingleFeedback, deleteFeedbackInit } from './../redux/actions';
+import { doc, updateDoc } from 'firebase/firestore';
+
 import { db } from '../firebase';
-
-
 
 const EditFeedbackPage = () => {
 
@@ -26,22 +21,19 @@ const EditFeedbackPage = () => {
 
 
     const { feedback } = useSelector((state) => state.data);
-    const { category, detail, title, status,
-        // id: feedbackId 
-    } = feedback;
+    const { category, detail, title, status, comments, upVotesCount, createdBy, createdAt } = feedback;
 
     const initialState = {
+        createdBy: createdBy,
         category: category,
-        comments: [],
+        comments: comments,
         detail: detail,
-        // id: feedbackId,
-        createdAt: Timestamp.now().toDate(),
+        createdAt: createdAt,
         status: status,
         title: title,
-        upVotesCount: []
+        upVotesCount: upVotesCount,
     }
 
-    // const { id: feedId } = initialState
 
     const [state, setState] = useState(initialState);
 
@@ -65,16 +57,19 @@ const EditFeedbackPage = () => {
 
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // setState({ ...state, title: '', detail: "", category: "All" })
-    }
-
     const editFeedback = async (e) => {
         e.preventDefault();
         await updateDoc(feedDocRef, state);
         setState({ ...state, title: '', detail: "", category: "All" });
         navigate(`/feedback/${id}`)
+    }
+
+    const deleteFeedback = (id) => {
+        if (window.confirm("Are you sure younwant to delete this feedback?")) {
+            dispatch(deleteFeedbackInit(id));
+            console.log(id)
+        }
+        navigate('/');
     }
 
     return (
@@ -83,9 +78,7 @@ const EditFeedbackPage = () => {
                 <NavbarFeedback />
                 <EditFeedbackInnerContainer>
                     <h2>Edit Feedback</h2>
-                    <EditFeedbackFormContainer
-                    // onSubmit={handleSubmit}
-                    >
+                    <EditFeedbackFormContainer>
                         <h4>Feedback Title</h4>
                         <label htmlFor="title">Add a short, descriptive headline</label>
                         <input
@@ -93,7 +86,6 @@ const EditFeedbackPage = () => {
                             name='title'
                             value={state.title}
                             onChange={handleInputChange}
-                        // placeholder={title}
 
                         />
 
@@ -104,7 +96,6 @@ const EditFeedbackPage = () => {
                             id="category"
                             value={state.category}
                             onChange={handleInputChange}
-                        // placeholder={category}
 
                         >
                             <option value="All">All</option>
@@ -123,7 +114,6 @@ const EditFeedbackPage = () => {
                             value={state.status}
                             defaultValue={status}
                             onChange={handleInputChange}
-                        // placeholder={status}
 
                         >
                             <option value="Suggestion">Suggestion</option>
@@ -139,13 +129,12 @@ const EditFeedbackPage = () => {
                             id="detail"
                             value={state.detail}
                             onChange={handleInputChange}
-                        // placeholder={detail}
 
 
                         />
                         <EditFeedbackButtonsContainer>
                             <EditFeedbackButtonDelete
-                            // onClick={deleteFeedback}
+                                onClick={() => deleteFeedback(id)}
                             >
                                 Delete
                             </EditFeedbackButtonDelete>
