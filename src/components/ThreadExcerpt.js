@@ -2,11 +2,10 @@ import React from 'react'
 import styled from 'styled-components';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import PersonIcon from '@mui/icons-material/Person';
 import { SidebarOption } from './Sidebar';
 
-
-
-const ThreadExcerpt = ({ onClick, id, title, category, detail, comments, upVotesCount }) => {
+const ThreadExcerpt = ({ onClick, id, title, category, detail, comments, upVotesCount, createdBy }) => {
 
     return (
         <ThreadContainer
@@ -20,6 +19,7 @@ const ThreadExcerpt = ({ onClick, id, title, category, detail, comments, upVotes
                 <ThreadContent>
                     <ThreadInfo>
                         <h3>{title}</h3>
+                        <span> <PersonIcon />{createdBy}</span>
                         <p>{detail}</p>
                     </ThreadInfo>
                     <ThreadCategory>
@@ -89,7 +89,7 @@ const ThreadContent = styled.div`
 const ThreadInfo = styled.div`
     display: flex;
     flex-direction: column;
-    margin-bottom: 12px;
+    margin-bottom: 18px;
 
 
     >h3 {
@@ -100,8 +100,21 @@ const ThreadInfo = styled.div`
 
     >p {
         font-weight: 500;
-        font-size: 12px;
+        font-size: 14px;
         color: #464d7b;
+    }
+
+    >span {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 6px;
+
+        >.MuiSvgIcon-root {
+            font-size: 15px;
+            margin-right: 7px;
+        }
     }
 `;
 
