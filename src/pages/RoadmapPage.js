@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 
 import NavabarRoadmap from '../components/NavabarRoadmap'
 import RoadmapFeedCard from '../components/RoadmapFeedCard'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getFeedbacks } from './../redux/actions';
 
 const RoadmapPage = () => {
 
@@ -28,9 +27,6 @@ const RoadmapPage = () => {
         />
     ))
 
-
-
-
     const feedbacksInProgress = feedbacks.filter(function (feedback) {
         return feedback.status === 'In-Progress'
     }).map(({ id, status, title, category, detail, comments, upVotesCount }) => (
@@ -46,7 +42,6 @@ const RoadmapPage = () => {
         />
     ))
 
-
     const feedbacksLive = feedbacks.filter(function (feedback) {
         return feedback.status === 'Live'
     }).map(({ id, status, title, category, detail, comments, upVotesCount }) => (
@@ -61,8 +56,6 @@ const RoadmapPage = () => {
             upVotesCount={upVotesCount?.length}
         />
     ))
-
-
 
     return (
         <RoadmapPageContainer>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -6,6 +6,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import styled from 'styled-components';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import PersonIcon from '@mui/icons-material/Person';
+
 import { SidebarOption } from '../components/Sidebar';
 import AddCommentSection from '../components/AddCommentSection';
 import Comment from '../components/Comment';
@@ -14,21 +16,11 @@ import { getSingleFeedback } from '../redux/actions';
 
 const SingleThreadPage = () => {
 
-    const [state, setState] = useState();
     const { feedback } = useSelector((state) => state.data);
-    const { category, detail, title, upVotesCount, comments } = feedback;
-
-    console.log(feedback)
-
+    const { category, detail, title, upVotesCount, comments, createdBy } = feedback;
 
     const { id } = useParams();
     const dispatch = useDispatch();
-
-
-    // console.log(data[id])
-    // const [initialState, setState] = useState(data);
-    // const { title, category, detail, comments, upVotesCount } = initialState;
-    // console.log(title)
 
     const navigate = useNavigate();
 
@@ -57,6 +49,7 @@ const SingleThreadPage = () => {
                         <ThreadContent>
                             <ThreadInfo>
                                 <h3>{title}</h3>
+                                <span> <PersonIcon />{createdBy}</span>
                                 <p>{detail}</p>
                             </ThreadInfo>
                             <ThreadCategory>
@@ -89,10 +82,13 @@ const SingleThreadPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+
 `;
 
 const SingleThreadPageContainerWhole = styled.div`
-    max-width: 800px;
+    width: 100%;
 `;
 
 const ThreadNav = styled.div`
@@ -101,9 +97,6 @@ const ThreadNav = styled.div`
     align-items: center;
     margin-bottom: 24px;
 
-    >Link {
-        
-    }
 `;
 
 const ThreadNavLeft = styled.div`
@@ -122,6 +115,8 @@ const ThreadNavLeft = styled.div`
         font-weight: 800;
         color: #72799d;
     }
+
+    
 
 `;
 
@@ -203,14 +198,27 @@ const ThreadInfo = styled.div`
 
     >h3 {
         font-weight: 900;
-        font-size: 17px;
+        font-size: 18px;
         margin-bottom: 6px;
     }
 
     >p {
         font-weight: 500;
-        font-size: 12px;
+        font-size: 14px;
         color: #464d7b;
+    }
+
+    >span {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 6px;
+
+        >.MuiSvgIcon-root {
+            font-size: 15px;
+            margin-right: 7px;
+        }
     }
 
 `;
