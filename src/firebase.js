@@ -1,6 +1,6 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCXmxKzOTndx6qgMy26CdiangU0PPrkGc8",
@@ -11,11 +11,7 @@ const firebaseConfig = {
     appId: "1:600612784630:web:3c045cfa2691c889351fd7"
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = firebaseApp.firestore();
-const auth = firebase.auth();
-// const feedbacksCollectionRef = collection(db, "feedbacks");
-// const commentsCollectionRef = collection(db, "comments");
+const app = initializeApp(firebaseConfig);
 
-
-export { auth, db };
+export const db = getFirestore(app);
+export const auth = getAuth(app);
