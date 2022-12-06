@@ -41,7 +41,6 @@ const NavContainer = styled.div`
 
 const NavHeader = styled.div`
     display: flex;
-    /* justify-content: space-between; */
     background-color: #373e68;
     padding: 15px;
     border-radius: 5px;
