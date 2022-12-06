@@ -37,6 +37,7 @@ const feedbackReducer = (state = initialState, action) => {
         case types.DELETE_FEEDBACK_START:
         case types.ADD_FEEDBACK_START:
         case types.EDIT_FEEDBACK_START:
+        case types.ADD_COMMENT_TO_FEEDBACK_START:
             return {
                 ...state,
                 loading: true
@@ -44,6 +45,7 @@ const feedbackReducer = (state = initialState, action) => {
         case types.DELETE_FEEDBACK_SUCCESS:
         case types.ADD_FEEDBACK_SUCCESS:
         case types.EDIT_FEEDBACK_SUCCESS:
+        case types.ADD_COMMENT_TO_FEEDBACK_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -51,6 +53,8 @@ const feedbackReducer = (state = initialState, action) => {
         case types.DELETE_FEEDBACK_FAIL:
         case types.ADD_FEEDBACK_FAIL:
         case types.EDIT_FEEDBACK_FAIL:
+        case types.ADD_COMMENT_TO_FEEDBACK_FAIL:
+
             return {
                 ...state,
                 loading: false,
