@@ -55,8 +55,6 @@ const FeedCardContainer = styled.div`
     
 `;
 
-
-
 const FeedCardBottom = styled.div`
     display: flex;
     justify-content: space-between;
