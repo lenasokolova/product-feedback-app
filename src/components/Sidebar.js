@@ -2,16 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import SidebarStatOption from './SidebarStatOption';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 
 
 const Sidebar = () => {
 
     const [user] = useAuthState(auth)
     console.log("this is user =>", user)
+
+    const navigate = useNavigate()
 
     const { feedbacks } = useSelector(state => state.data);
 
@@ -27,13 +30,25 @@ const Sidebar = () => {
         return feedback.status === 'Live'
     })
 
+    const toRegisterPage = () => {
+        signOut(auth);
+        navigate('/login')
+
+    }
+
     return (
         <SidebarContainer>
             <SidebarHeader>
                 <h3>Frontend Mentor</h3>
                 <p>Feedback Board</p>
                 {user && (
-                    <span>Signed in as {user.displayName || user.email}</span>
+                    <>
+                        <StyledSpan>Signed in as </StyledSpan>
+                        <StyledDiv onClick={() => toRegisterPage()}>
+                            <StyledImg src={user.photoURL} />
+                            <p>{user.displayName || user.email}</p>
+                        </StyledDiv>
+                    </>
                 )}
             </SidebarHeader>
             <SidebarOptionContainer>
@@ -80,7 +95,7 @@ const SidebarHeader = styled.div`
     background-image: linear-gradient(156deg, rgba(113, 178, 247, 1) 12%, rgba(156, 76, 244, 1) 31%, rgba(183, 65, 206, 1) 76%, rgba(239, 160, 140, 1) 100%);
     border-radius: 10px;
     color: #fff;
-    padding: 60px 18px 18px;
+    padding: 18px;
     margin-bottom: 20px;
 
     -webkit-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
@@ -88,16 +103,60 @@ const SidebarHeader = styled.div`
     box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
 
     > h3 {
-        font-size: 17px;
+        font-size: 20px;
         font-weight: 700;
     }
 
     > p {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 200;
         margin-top: 5px;
     }
+
 `;
+
+const StyledSpan = styled.span`
+`;
+
+const StyledDiv = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    :hover {
+        background: rgb(153,0,255);
+        background: linear-gradient(90deg, rgba(153,0,255,0.48783263305322133) 0%, rgba(255,255,255,0.6699054621848739) 100%);
+    }
+`;
+
+const StyledLink = styled(Link)`
+    padding: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 5px;
+    color: #fff;
+    font-size: 18px;
+
+    -webkit-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
+    -moz-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
+    box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
+
+    
+`;
+
+const StyledImg = styled.img`
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 10px;
+`;
+
+
 
 const SidebarOptionContainer = styled.div`
     display: flex;
@@ -108,10 +167,11 @@ const SidebarOptionContainer = styled.div`
     border-radius: 10px;
     margin-bottom: 20px;
 
-
     -webkit-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
     -moz-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
     box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
+
+    
 
 `;
 
@@ -121,7 +181,6 @@ export const SidebarOption = styled.div`
     color: #4661e6;
     background-color: #f2f4ff;
     padding: 10px 18px;
-    /* margin-bottom: 15px; */
     margin-right: 10px;
     border-radius: 10px;
     cursor: pointer;
