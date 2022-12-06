@@ -4,13 +4,17 @@ import { useParams } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import { arrayUnion, doc, Timestamp } from 'firebase/firestore';
 import { updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const AddCommentSection = () => {
 
     const { id } = useParams();
+    const [user] = useAuthState(auth);
 
     const [comment, setComment] = useState({
+        photo: user.photoURL,
+        createdBy: user.displayName,
         comment: '',
         createdAt: Timestamp.now().toDate(),
         commentId: nanoid(),
@@ -23,6 +27,8 @@ const AddCommentSection = () => {
 
         updateDoc(commentRef, {
             comments: arrayUnion({
+                photo: user.photoURL,
+                createdBy: user.displayName,
                 comment: comment,
                 createdAt: Timestamp.now().toDate(),
                 commentId: nanoid(),
