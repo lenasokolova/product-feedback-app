@@ -3,9 +3,8 @@ import AssistantIcon from '@mui/icons-material/Assistant';
 import styled from 'styled-components';
 import { Button, TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../firebase';
-import { updateProfile } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
 
 
 const Register = () => {
@@ -13,7 +12,6 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [nickname, setNickname] = useState('');
 
     const [profilePic, setProfilePic] = useState('');
 
@@ -21,22 +19,13 @@ const Register = () => {
 
     const registerToApp = async (e) => {
         e.preventDefault();
-
-        await auth.createUserWithEmailAndPassword(email, password)
-        await updateProfile({
-            displayName: name,
-            photoURL: profilePic
-        })
-
-
-        // await auth.createUserWithEmailAndPassword(email, password).then(userAuth => ({
-        //     email: userAuth.user.email,
-        //     uid: userAuth.user.uid,
-        //     displayName: userAuth.user.name,
-        //     photoURL: userAuth.user.profilePic,
-        //     nickname: userAuth.user.nickname,
-        // })).catch(error => alert(error))
-        navigate('/')
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            updateProfile(auth.currentUser, { displayName: name, photoURL: profilePic });
+            navigate('/')
+        } catch (error) {
+            alert(error)
+        }
     }
 
     return (
@@ -53,16 +42,6 @@ const Register = () => {
                     variant="outlined"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    type="text"
-                />
-
-                <TextField
-                    margin="normal"
-                    id="outlined-basic"
-                    label="Nickname"
-                    variant="outlined"
-                    value={nickname}
-                    onChange={e => setNickname(e.target.value)}
                     type="text"
                 />
 
@@ -106,7 +85,7 @@ const Register = () => {
 
             </RegisterForm>
             <p>Already have an account?</p>
-            <StyledLink>
+            <StyledLink to='/login'>
                 <h3>Go to Login Page</h3>
             </StyledLink>
         </RegisterContainer>
