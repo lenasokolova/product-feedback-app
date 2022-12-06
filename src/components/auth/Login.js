@@ -3,23 +3,24 @@ import { TextField, Button } from '@mui/material';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import styled from 'styled-components';
 import { auth } from '../../firebase';
+import { Link, useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate()
 
-    const loginToApp = (e) => {
+
+    const loginToApp = async (e) => {
         e.preventDefault();
-        auth.signInWithEmailAndPassword(email, password).then(userAuth => {
-            // dispatch(login({
-            //     email: userAuth.user.email,
-            //     uid: userAuth.user.uid,
-            //     displayName: userAuth.user.displayName,
-            //     profileUrl: userAuth.user.photoURL,
-            // }))
-        }).catch(error => alert(error))
-
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate('/')
+        } catch (error) {
+            alert(error)
+        }
     }
 
     return (
@@ -58,6 +59,10 @@ const Login = () => {
 
 
             </LoginForm>
+            <p>Haven't account yet?</p>
+            <StyledLink to='/register'>
+                <h3>Go to Register Page</h3>
+            </StyledLink>
         </LoginContainer>
     )
 }
@@ -98,8 +103,16 @@ const StyledButton = styled(Button)`
     margin: 20px 0px 20px !important;
 `;
 
+
 const LoginForm = styled.form`
     display: flex;
     flex-direction: column;
     width: 350px;
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: #4661e6;
+    cursor: pointer;
+
 `;
