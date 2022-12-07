@@ -1,3 +1,9 @@
+# Frontend Mentor Challenge - product feedback app
+
+This project was created using `react`, `redux`, `firebase`, `react-routing`, `styled-components`, `material-ui`.\
+Thanks to firebase and redux we can make the CRUD operations - create, update, delete, get all & single one feedback.\
+All CRUD operations are allowed to perform only if you are a registered user. So for more activities to be used please create an account.\ 
+
 # Getting Started with Create React App and Redux
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
