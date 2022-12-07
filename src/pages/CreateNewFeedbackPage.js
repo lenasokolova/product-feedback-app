@@ -16,7 +16,7 @@ const CreateNewFeedbackPage = () => {
     const [user] = useAuthState(auth);
 
     const initialState = {
-        createdBy: user.displayName,
+        createdBy: user?.displayName,
         category: "All",
         comments: [],
         detail: "",
@@ -51,57 +51,63 @@ const CreateNewFeedbackPage = () => {
     }
 
     return (
-        <NewFeedbackContainer>
-            <NewFeedbackWholeContainer>
-                <NavbarFeedback />
-                <NewFeedbackInnerContainer>
-                    <h2>Create New Feedback</h2>
-                    <NewFeedbackFormContainer onSubmit={handleSubmit}>
-                        <h4>Feedback Title</h4>
-                        <label htmlFor="title">Add a short, descriptive headline</label>
-                        <input
-                            type="text"
-                            name='title'
-                            value={title}
-                            onChange={handleInputChange}
-                        />
 
-                        <h4>Category</h4>
-                        <label htmlFor="category">Choose a category for your feedback</label>
-                        <select
-                            name="category"
-                            id="category"
-                            value={category}
-                            onChange={handleInputChange}
-                        >
-                            <option value="All">All</option>
-                            <option value="UI">UI</option>
-                            <option value="UX">UX</option>
-                            <option value="Enhancement">Enhancement</option>
-                            <option value="Bug">Bug</option>
-                            <option value="Feature">Feature</option>
-                        </select>
+        <>
+            {!user ? navigate('/register') : (
+                <NewFeedbackContainer>
+                    <NewFeedbackWholeContainer>
+                        <NavbarFeedback />
+                        <NewFeedbackInnerContainer>
+                            <h2>Create New Feedback</h2>
+                            <NewFeedbackFormContainer onSubmit={handleSubmit}>
+                                <h4>Feedback Title</h4>
+                                <label htmlFor="title">Add a short, descriptive headline</label>
+                                <input
+                                    type="text"
+                                    name='title'
+                                    value={title}
+                                    onChange={handleInputChange}
+                                />
 
-                        <h4>Feedback Detail</h4>
-                        <label htmlFor="detail">Include any specific comments on what should be improved, added, etc.</label>
-                        <textarea
-                            name="detail"
-                            id="detail"
-                            value={detail}
-                            onChange={handleInputChange}
-                        />
-                        <NewFeedbackButtonsContainer>
-                            <NewFeedbackButtonCancel
-                                onClick={cancelAddFeedback}
-                            >Cancel</NewFeedbackButtonCancel>
-                            <NewFeedbackButtonAdd
-                                type='submit'
-                            >Add Feedback</NewFeedbackButtonAdd>
-                        </NewFeedbackButtonsContainer>
-                    </NewFeedbackFormContainer>
-                </NewFeedbackInnerContainer>
-            </NewFeedbackWholeContainer>
-        </NewFeedbackContainer>
+                                <h4>Category</h4>
+                                <label htmlFor="category">Choose a category for your feedback</label>
+                                <select
+                                    name="category"
+                                    id="category"
+                                    value={category}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="All">All</option>
+                                    <option value="UI">UI</option>
+                                    <option value="UX">UX</option>
+                                    <option value="Enhancement">Enhancement</option>
+                                    <option value="Bug">Bug</option>
+                                    <option value="Feature">Feature</option>
+                                </select>
+
+                                <h4>Feedback Detail</h4>
+                                <label htmlFor="detail">Include any specific comments on what should be improved, added, etc.</label>
+                                <textarea
+                                    name="detail"
+                                    id="detail"
+                                    value={detail}
+                                    onChange={handleInputChange}
+                                />
+                                <NewFeedbackButtonsContainer>
+                                    <NewFeedbackButtonCancel
+                                        onClick={cancelAddFeedback}
+                                    >Cancel</NewFeedbackButtonCancel>
+                                    <NewFeedbackButtonAdd
+                                        type='submit'
+                                    >Add Feedback</NewFeedbackButtonAdd>
+                                </NewFeedbackButtonsContainer>
+                            </NewFeedbackFormContainer>
+                        </NewFeedbackInnerContainer>
+                    </NewFeedbackWholeContainer>
+                </NewFeedbackContainer>
+            )}
+        </>
+
     )
 }
 
