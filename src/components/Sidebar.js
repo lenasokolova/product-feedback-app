@@ -41,13 +41,21 @@ const Sidebar = () => {
             <SidebarHeader>
                 <h3>Frontend Mentor</h3>
                 <p>Feedback Board</p>
-                {user && (
+                {user ? (
                     <>
                         <StyledSpan>Signed in as </StyledSpan>
                         <StyledDiv onClick={() => toRegisterPage()}>
                             <StyledImg src={user.photoURL} />
                             <p>{user.displayName || user.email}</p>
                         </StyledDiv>
+                    </>
+                ) : (
+                    <>
+                        <NoUserH2>Not a user?</NoUserH2>
+                        <NoUserDiv>
+                            <h2>Please <br /><StyledLink to={"/login"}>login</StyledLink> or <StyledLink to={"/register"}>register</StyledLink></h2>
+                        </NoUserDiv>
+
                     </>
                 )}
             </SidebarHeader>
@@ -132,20 +140,21 @@ const StyledDiv = styled.div`
     }
 `;
 
-const StyledLink = styled(Link)`
-    padding: 5px;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 6px;
-    margin-top: 5px;
-    color: #fff;
-    font-size: 18px;
-
-    -webkit-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
-    -moz-box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
-    box-shadow: 4px 10px 24px -13px rgba(154, 154, 210, 1);
-
+const NoUserH2 = styled.h2`
+    margin-top: 15px;
     
+`;
+
+
+const NoUserDiv = styled.div`
+    background: rgba(55,62,104, 0.6);
+    padding: 10px; 
+    border-radius: 9px;
+    margin-top: 8px;   
+
+    >h2 {
+        font-weight: 300;
+    }
 `;
 
 const StyledImg = styled.img`
@@ -154,6 +163,11 @@ const StyledImg = styled.img`
     object-fit: cover;
     border-radius: 8px;
     margin-right: 10px;
+`;
+
+const StyledLink = styled(Link)`
+    color: #fff;
+    font-weight: 700;
 `;
 
 
