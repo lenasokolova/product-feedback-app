@@ -12,10 +12,13 @@ import { SidebarOption } from '../components/Sidebar';
 import AddCommentSection from '../components/AddCommentSection';
 import Comment from '../components/Comment';
 import { getSingleFeedback } from '../redux/actions';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
+
 
 
 const SingleThreadPage = () => {
-
+    const [user] = useAuthState(auth);
     const { feedback } = useSelector((state) => state.data);
     const { category, detail, title, upVotesCount, comments, createdBy } = feedback;
 
@@ -29,48 +32,54 @@ const SingleThreadPage = () => {
     }, [])
 
     return (
-        <SingleThreadPageContainer>
-            <SingleThreadPageContainerWhole>
-                <ThreadNav>
-                    <ThreadNavLeft onClick={() => navigate('/')}>
-                        <NavigateBeforeIcon />
-                        <p>Go Back</p>
-                    </ThreadNavLeft>
-                    <ThreadNavRight>
-                        <button onClick={() => navigate(`/update/${id}`)}>Edit Feedback</button>
-                    </ThreadNavRight>
-                </ThreadNav >
-                <ThreadContainer>
-                    <ThreadLeft>
-                        <ThreadVotes>
-                            <ExpandLessIcon />
-                            <h4>{upVotesCount?.length}</h4>
-                        </ThreadVotes>
-                        <ThreadContent>
-                            <ThreadInfo>
-                                <h3>{title}</h3>
-                                <span> <PersonIcon />{createdBy}</span>
-                                <p>{detail}</p>
-                            </ThreadInfo>
-                            <ThreadCategory>
-                                <SidebarOption>{category}</SidebarOption>
-                            </ThreadCategory>
-                        </ThreadContent>
-                    </ThreadLeft>
+        <>
+            {!user ? navigate('/register') : (
+                <SingleThreadPageContainer>
+                    <SingleThreadPageContainerWhole>
+                        <ThreadNav>
+                            <ThreadNavLeft onClick={() => navigate('/')}>
+                                <NavigateBeforeIcon />
+                                <p>Go Back</p>
+                            </ThreadNavLeft>
+                            <ThreadNavRight>
+                                <button onClick={() => navigate(`/update/${id}`)}>Edit Feedback</button>
+                            </ThreadNavRight>
+                        </ThreadNav >
+                        <ThreadContainer>
+                            <ThreadLeft>
+                                <ThreadVotes>
+                                    <ExpandLessIcon />
+                                    <h4>{upVotesCount?.length}</h4>
+                                </ThreadVotes>
+                                <ThreadContent>
+                                    <ThreadInfo>
+                                        <h3>{title}</h3>
+                                        <span> <PersonIcon />{createdBy}</span>
+                                        <p>{detail}</p>
+                                    </ThreadInfo>
+                                    <ThreadCategory>
+                                        <SidebarOption>{category}</SidebarOption>
+                                    </ThreadCategory>
+                                </ThreadContent>
+                            </ThreadLeft>
 
-                    <ThreadRight>
-                        <ThreadComments>
-                            <ChatBubbleIcon />
-                            <h3>{comments?.length}</h3>
-                        </ThreadComments>
-                    </ThreadRight>
+                            <ThreadRight>
+                                <ThreadComments>
+                                    <ChatBubbleIcon />
+                                    <h3>{comments?.length}</h3>
+                                </ThreadComments>
+                            </ThreadRight>
 
 
-                </ThreadContainer>
-                <Comment />
-                <AddCommentSection />
-            </SingleThreadPageContainerWhole>
-        </ SingleThreadPageContainer>
+                        </ThreadContainer>
+                        <Comment />
+                        <AddCommentSection />
+                    </SingleThreadPageContainerWhole>
+                </ SingleThreadPageContainer>
+            )
+            }
+        </>
+
     )
 
 }
