@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/product-feedback-app/static/css/main.6ef09eda.css",
+    "main.js": "/product-feedback-app/static/js/main.b9039ad3.js",
+    "index.html": "/product-feedback-app/index.html",
+    "main.6ef09eda.css.map": "/product-feedback-app/static/css/main.6ef09eda.css.map",
+    "main.b9039ad3.js.map": "/product-feedback-app/static/js/main.b9039ad3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6ef09eda.css",
+    "static/js/main.b9039ad3.js"
+  ]
+}
