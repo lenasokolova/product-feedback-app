@@ -1,4 +1,4 @@
-# Frontend Mentor Challenge - [Product Feedback app](https://product-feedback-app-64821.web.app/).
+# [Product Feedback app](https://product-feedback-app-64821.web.app/).
 
 This project was created using `react`, `redux`, `firebase`, `react-routing`, `styled-components`, `material-ui`.\
 Thanks to firebase and redux we can make the CRUD operations - create, update, delete, get all & single one feedback.\
