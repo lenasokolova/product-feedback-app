@@ -1,56 +1,49 @@
-# [Product Feedback app](https://product-feedback-app-64821.web.app/).
+## General Info
 
-This project was created using `react`, `redux`, `firebase`, `react-routing`, `styled-components`, `material-ui`.\
-Thanks to firebase and redux we can make the CRUD operations - create, update, delete, get all & single one feedback.\
-All CRUD operations are allowed to perform only if you are a registered user. So for more activities to be used please create an account.\ 
- 
+The Product Feedback Application has been created for reporting issues and managing report statuses.
 
+## Demo
 
+Check for **a working live demo** **[here](https://product-feedback-app-64821.web.app/)**
 
+![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/main-view.png "Application Dashboard")
 
-# Getting Started with Create React App and Redux
+All functionalities can only be performed when the user is registered or logged in. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+**Feel free to use the demo credentials you find down below.**
 
-## Available Scripts
+### **Demo credentials:**
 
-In the project directory, you can run:
+**Login:** user@demo.com
 
-### `npm start`
+**Password:** User123!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [x] Create, update, delete feedback and leave comments
 
-### `npm test`
+![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/create-feedback.png "Create Feedback Form")
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [x] Change the status of the feedback
 
-### `npm run build`
+![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/edit-feedback.png "Edit Feedback Form")
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [x] Check the feedback roadmap in order to check the process by the status
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/feedback-roadmap.png "Feedback Roadmap View")
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features To Be Added
 
-### `npm run eject`
+- [ ] Upvote feedback
+- [ ] Filter feedbacks by category / status
+- [ ] Restrict access to the feedback while updating process
+- [ ] Unit tests
+- [ ] Admin profile
+- [ ] Notification system
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Technologies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React
+- Redux
+- styled-components
+- Firebase
