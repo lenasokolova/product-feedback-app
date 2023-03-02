@@ -6,10 +6,6 @@ The Product Feedback Application has been created for reporting issues and manag
 
 Check for **a working live demo** **[here](https://product-feedback-app-64821.web.app/)**
 
-![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/welcomeImage.png "Welcome Page")
-
-![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/dashboard-1.png "Application Dashboard")
-
 All functionalities can only be performed when the user is registered or logged in.
 
 **Feel free to use the demo credentials you find down below.**
@@ -19,6 +15,10 @@ All functionalities can only be performed when the user is registered or logged 
 **Login:** user@demo.com
 
 **Password:** User123!
+
+![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/welcomeImage.png "Welcome Page")
+
+![alt text](https://github.com/lenasokolova/product-feedback-app/blob/main/PNGs/dashboard-1.png "Application Dashboard")
 
 ## Features
 
